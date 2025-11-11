@@ -1,14 +1,36 @@
+import { useNavigate } from "react-router-dom";
+import { Button } from "@/components/ui/button";
 import { TripForm } from "@/components/TripForm";
 import { DestinationCard } from "@/components/DestinationCard";
-import { Compass, Sparkles, Globe, Shield } from "lucide-react";
+import { Compass, Sparkles, Globe, Shield, LogIn, Plane } from "lucide-react";
 import heroImage from "@/assets/hero-travel.jpg";
 import beachImage from "@/assets/destination-beach.jpg";
 import mountainImage from "@/assets/destination-mountain.jpg";
 import cityImage from "@/assets/destination-city.jpg";
 
 const Index = () => {
+  const navigate = useNavigate();
+
   return (
     <div className="min-h-screen">
+      {/* Header */}
+      <header className="absolute top-0 left-0 right-0 z-10 py-4">
+        <div className="container mx-auto px-4 flex justify-between items-center">
+          <div className="flex items-center gap-2">
+            <Plane className="w-8 h-8 text-white" />
+            <h1 className="text-2xl font-bold text-white">TripMate</h1>
+          </div>
+          <Button
+            onClick={() => navigate("/auth")}
+            variant="outline"
+            className="text-white border-white hover:bg-white/20"
+          >
+            <LogIn className="w-4 h-4 mr-2" />
+            Login / Sign Up
+          </Button>
+        </div>
+      </header>
+
       {/* Hero Section */}
       <section className="relative h-[600px] flex items-center justify-center overflow-hidden">
         <div className="absolute inset-0">
