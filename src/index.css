@@ -44,15 +44,25 @@ All colors MUST be HSL.
     --sand: 40 50% 90%;
     --forest: 145 45% 40%;
     
+    /* Profile page colors */
+    --profile-bg-start: 202 44% 11%;
+    --profile-bg-mid: 193 35% 19%;
+    --profile-bg-end: 198 37% 28%;
+    --profile-turquoise: 167 100% 39%;
+    --profile-coral: 0 100% 71%;
+    --profile-text: 0 0% 18%;
+    
     /* Gradients */
     --gradient-hero: linear-gradient(135deg, hsl(185 62% 42%), hsl(200 75% 55%));
     --gradient-card: linear-gradient(to bottom, hsl(0 0% 100%), hsl(210 20% 97%));
     --gradient-overlay: linear-gradient(to top, hsl(185 62% 42% / 0.9), transparent);
+    --gradient-profile: linear-gradient(135deg, hsl(202 44% 11%), hsl(193 35% 19%), hsl(198 37% 28%));
     
     /* Shadows */
     --shadow-soft: 0 4px 20px hsl(185 62% 42% / 0.1);
     --shadow-card: 0 2px 8px hsl(185 62% 42% / 0.08);
     --shadow-hover: 0 8px 30px hsl(185 62% 42% / 0.15);
+    --shadow-elegant: 0 8px 32px rgba(0, 0, 0, 0.12);
     
     /* Animations */
     --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);

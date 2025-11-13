@@ -51,16 +51,21 @@ export default {
         coral: "hsl(var(--coral))",
         sand: "hsl(var(--sand))",
         forest: "hsl(var(--forest))",
+        'profile-turquoise': "hsl(var(--profile-turquoise))",
+        'profile-coral': "hsl(var(--profile-coral))",
+        'profile-text': "hsl(var(--profile-text))",
       },
       backgroundImage: {
         'gradient-hero': 'var(--gradient-hero)',
         'gradient-card': 'var(--gradient-card)',
         'gradient-overlay': 'var(--gradient-overlay)',
+        'gradient-profile': 'var(--gradient-profile)',
       },
       boxShadow: {
         'soft': 'var(--shadow-soft)',
         'card': 'var(--shadow-card)',
         'hover': 'var(--shadow-hover)',
+        'elegant': 'var(--shadow-elegant)',
       },
       transitionTimingFunction: {
         'smooth': 'var(--transition-smooth)',

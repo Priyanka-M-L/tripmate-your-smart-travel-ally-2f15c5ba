@@ -89,9 +89,9 @@ const Profile = () => {
   }
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-gradient-profile">
       {/* Header */}
-      <header className="bg-gradient-hero text-white py-6 shadow-soft">
+      <header className="bg-transparent backdrop-blur-sm text-white py-6">
         <div className="container mx-auto px-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-4">
@@ -99,7 +99,7 @@ const Profile = () => {
                 variant="ghost"
                 size="icon"
                 onClick={() => navigate("/dashboard")}
-                className="text-white hover:bg-white/20"
+                className="text-white hover:bg-white/20 rounded-full"
               >
                 <ArrowLeft className="w-5 h-5" />
               </Button>
@@ -117,29 +117,31 @@ const Profile = () => {
       <div className="container mx-auto px-4 py-12">
         <div className="max-w-2xl mx-auto space-y-6 animate-fade-in">
           <div className="flex items-center gap-3 mb-8">
-            <User className="w-8 h-8 text-primary" />
-            <h2 className="text-3xl font-bold text-foreground">My Profile</h2>
+            <div className="p-3 bg-white rounded-full shadow-elegant">
+              <User className="w-8 h-8 text-profile-text" />
+            </div>
+            <h2 className="text-3xl font-bold text-white">My Profile</h2>
           </div>
 
           {/* Profile Card */}
-          <Card className="p-6 bg-gradient-card border-border shadow-card">
+          <Card className="p-8 bg-white border-0 shadow-elegant rounded-[16px]">
             <div className="space-y-6">
-              <div className="flex items-center gap-4">
-                <div className="w-20 h-20 rounded-full bg-gradient-to-br from-primary to-ocean flex items-center justify-center text-white text-2xl font-bold shadow-soft">
+              <div className="flex items-center gap-4 pb-6 border-b border-gray-100">
+                <div className="w-20 h-20 rounded-full bg-gradient-to-br from-profile-turquoise to-blue-500 flex items-center justify-center text-white text-2xl font-bold shadow-elegant">
                   {fullName?.charAt(0).toUpperCase() || user?.email?.charAt(0).toUpperCase() || "U"}
                 </div>
                 <div>
-                  <h3 className="text-xl font-semibold text-foreground">
+                  <h3 className="text-xl font-bold text-profile-text">
                     {fullName || "Traveler"}
                   </h3>
-                  <p className="text-sm text-muted-foreground">{user?.email}</p>
+                  <p className="text-sm text-gray-500">{user?.email}</p>
                 </div>
               </div>
 
-              <div className="space-y-4">
+              <div className="space-y-5">
                 <div className="space-y-2">
-                  <Label htmlFor="fullName" className="flex items-center gap-2">
-                    <User className="w-4 h-4 text-primary" />
+                  <Label htmlFor="fullName" className="flex items-center gap-2 text-sm font-bold text-profile-text">
+                    <User className="w-4 h-4 text-profile-turquoise" />
                     Full Name
                   </Label>
                   <Input
@@ -147,31 +149,31 @@ const Profile = () => {
                     value={fullName}
                     onChange={(e) => setFullName(e.target.value)}
                     placeholder="Enter your full name"
-                    className="bg-background border-border"
+                    className="bg-gray-50 border-gray-200 text-profile-text placeholder:text-gray-400 focus:border-profile-turquoise focus:ring-profile-turquoise rounded-lg h-11"
                   />
                 </div>
 
                 <div className="space-y-2">
-                  <Label className="flex items-center gap-2">
-                    <Mail className="w-4 h-4 text-primary" />
+                  <Label className="flex items-center gap-2 text-sm font-bold text-profile-text">
+                    <Mail className="w-4 h-4 text-profile-turquoise" />
                     Email
                   </Label>
                   <Input
                     value={user?.email || ""}
                     disabled
-                    className="bg-muted border-border text-muted-foreground"
+                    className="bg-gray-100 border-gray-200 text-gray-500 rounded-lg h-11"
                   />
                 </div>
 
                 <div className="space-y-2">
-                  <Label className="flex items-center gap-2">
-                    <Calendar className="w-4 h-4 text-primary" />
+                  <Label className="flex items-center gap-2 text-sm font-bold text-profile-text">
+                    <Calendar className="w-4 h-4 text-profile-turquoise" />
                     Member Since
                   </Label>
                   <Input
                     value={new Date(profile?.created_at || "").toLocaleDateString()}
                     disabled
-                    className="bg-muted border-border text-muted-foreground"
+                    className="bg-gray-100 border-gray-200 text-gray-500 rounded-lg h-11"
                   />
                 </div>
               </div>
@@ -179,7 +181,7 @@ const Profile = () => {
               <Button
                 onClick={handleUpdateProfile}
                 disabled={updating}
-                className="w-full bg-primary text-primary-foreground hover:opacity-90 transition-all shadow-soft"
+                className="w-full bg-profile-turquoise hover:bg-profile-turquoise/90 text-white shadow-soft hover:shadow-elegant transition-all duration-300 rounded-lg h-12 font-semibold"
               >
                 {updating ? "Updating..." : "Update Profile"}
               </Button>
@@ -187,14 +189,13 @@ const Profile = () => {
           </Card>
 
           {/* Account Actions */}
-          <Card className="p-6 bg-gradient-card border-border shadow-card">
-            <h3 className="text-lg font-semibold text-foreground mb-4">Account Actions</h3>
+          <Card className="p-8 bg-white border-0 shadow-elegant rounded-[16px]">
+            <h3 className="text-xl font-bold text-profile-text mb-6">Account Actions</h3>
             <Button
               onClick={handleLogout}
-              variant="destructive"
-              className="w-full"
+              className="w-full flex items-center justify-center gap-2 bg-profile-coral hover:bg-profile-coral/90 text-white shadow-soft hover:shadow-elegant transition-all duration-300 rounded-lg h-12 font-semibold"
             >
-              <LogOut className="w-4 h-4 mr-2" />
+              <LogOut className="w-5 h-5" />
               Logout
             </Button>
           </Card>
