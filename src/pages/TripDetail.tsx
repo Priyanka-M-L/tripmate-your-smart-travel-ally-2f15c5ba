@@ -249,18 +249,6 @@ const TripDetail = () => {
               <h2 className="text-2xl font-bold text-foreground">
                 Itinerary
               </h2>
-              <Tabs value={viewMode} onValueChange={(v) => setViewMode(v as "list" | "timeline")}>
-                <TabsList>
-                  <TabsTrigger value="list" className="flex items-center gap-2">
-                    <List className="w-4 h-4" />
-                    List View
-                  </TabsTrigger>
-                  <TabsTrigger value="timeline" className="flex items-center gap-2">
-                    <Calendar className="w-4 h-4" />
-                    Timeline View
-                  </TabsTrigger>
-                </TabsList>
-              </Tabs>
             </div>
             
             {items.length === 0 ? (
@@ -271,10 +259,19 @@ const TripDetail = () => {
                 </p>
               </Card>
             ) : (
-              <TabsContent value={viewMode}>
-                {viewMode === "timeline" ? (
-                  <TripTimeline items={items} />
-                ) : (
+              <Tabs value={viewMode} onValueChange={(v) => setViewMode(v as "list" | "timeline")}>
+                <TabsList className="mb-6">
+                  <TabsTrigger value="list" className="flex items-center gap-2">
+                    <List className="w-4 h-4" />
+                    List View
+                  </TabsTrigger>
+                  <TabsTrigger value="timeline" className="flex items-center gap-2">
+                    <Calendar className="w-4 h-4" />
+                    Timeline View
+                  </TabsTrigger>
+                </TabsList>
+
+                <TabsContent value="list">
                   <div className="space-y-6">
                     {Array.from({ length: tripDays }, (_, i) => i + 1).map(
                       (day) => (
@@ -294,7 +291,7 @@ const TripDetail = () => {
                               />
                             )) || (
                               <p className="text-muted-foreground text-sm">
-                                No activities planned
+                                No activities for this day
                               </p>
                             )}
                           </div>
@@ -302,8 +299,12 @@ const TripDetail = () => {
                       )
                     )}
                   </div>
-                )}
-              </TabsContent>
+                </TabsContent>
+
+                <TabsContent value="timeline">
+                  <TripTimeline items={items} />
+                </TabsContent>
+              </Tabs>
             )}
           </div>
         </div>
