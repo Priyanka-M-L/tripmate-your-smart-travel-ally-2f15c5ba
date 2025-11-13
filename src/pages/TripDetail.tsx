@@ -47,6 +47,10 @@ const TripDetail = () => {
   const [generatingAI, setGeneratingAI] = useState(false);
   const [viewMode, setViewMode] = useState<"list" | "timeline">("list");
 
+  const handleViewModeChange = (value: string) => {
+    setViewMode(value as "list" | "timeline");
+  };
+
   useEffect(() => {
     fetchTripData();
   }, [id]);
@@ -259,7 +263,7 @@ const TripDetail = () => {
                 </p>
               </Card>
             ) : (
-              <Tabs value={viewMode} onValueChange={(v) => setViewMode(v as "list" | "timeline")}>
+              <Tabs value={viewMode} onValueChange={handleViewModeChange}>
                 <TabsList className="mb-6">
                   <TabsTrigger value="list" className="flex items-center gap-2">
                     <List className="w-4 h-4" />
