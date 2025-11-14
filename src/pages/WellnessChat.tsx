@@ -6,7 +6,8 @@ import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { useToast } from "@/hooks/use-toast";
-import { ArrowLeft, Send, Bot, User as UserIcon, Loader2 } from "lucide-react";
+import { useVoiceRecorder } from "@/hooks/useVoiceRecorder";
+import { ArrowLeft, Send, Bot, User as UserIcon, Loader2, Mic, MicOff, Volume2 } from "lucide-react";
 import { LoadingSpinner } from "@/components/LoadingSpinner";
 
 interface Message {
@@ -18,12 +19,16 @@ interface Message {
 const WellnessChat = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
+  const { isRecording, startRecording, stopRecording } = useVoiceRecorder();
   const [loading, setLoading] = useState(true);
   const [userId, setUserId] = useState<string | null>(null);
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState("");
   const [sending, setSending] = useState(false);
+  const [isPlayingAudio, setIsPlayingAudio] = useState(false);
+  const [autoPlayVoice, setAutoPlayVoice] = useState(true);
   const scrollRef = useRef<HTMLDivElement>(null);
+  const audioRef = useRef<HTMLAudioElement | null>(null);
 
   useEffect(() => {
     const checkUser = async () => {
@@ -51,12 +56,13 @@ const WellnessChat = () => {
     }
   }, [messages]);
 
-  const handleSend = async () => {
-    if (!input.trim() || !userId || sending) return;
+  const handleSend = async (textToSend?: string) => {
+    const messageText = textToSend || input.trim();
+    if (!messageText || !userId || sending) return;
 
     const userMessage: Message = {
       role: "user",
-      content: input.trim(),
+      content: messageText,
       timestamp: new Date(),
     };
 
@@ -85,6 +91,11 @@ const WellnessChat = () => {
       };
 
       setMessages((prev) => [...prev, assistantMessage]);
+
+      // Auto-play voice response if enabled
+      if (autoPlayVoice) {
+        await playTextAsVoice(data.response);
+      }
     } catch (error: any) {
       console.error("Error sending message:", error);
       toast({
@@ -95,6 +106,94 @@ const WellnessChat = () => {
     } finally {
       setSending(false);
     }
+  };
+
+  const handleVoiceInput = async () => {
+    try {
+      if (isRecording) {
+        // Stop recording and transcribe
+        setSending(true);
+        const audioBase64 = await stopRecording();
+
+        toast({
+          title: "Transcribing...",
+          description: "Converting your voice to text",
+        });
+
+        const { data, error } = await supabase.functions.invoke("speech-to-text", {
+          body: { audio: audioBase64 },
+        });
+
+        if (error) throw error;
+        if (data?.error) throw new Error(data.error);
+
+        // Send the transcribed text
+        await handleSend(data.text);
+      } else {
+        // Start recording
+        await startRecording();
+        toast({
+          title: "Recording",
+          description: "Speak now...",
+        });
+      }
+    } catch (error: any) {
+      console.error("Error with voice input:", error);
+      toast({
+        title: "Error",
+        description: error.message || "Failed to process voice input",
+        variant: "destructive",
+      });
+      setSending(false);
+    }
+  };
+
+  const playTextAsVoice = async (text: string) => {
+    try {
+      setIsPlayingAudio(true);
+      
+      const { data, error } = await supabase.functions.invoke("text-to-speech", {
+        body: { text, voice: "alloy" },
+      });
+
+      if (error) throw error;
+      if (data?.error) throw new Error(data.error);
+
+      // Convert base64 to audio and play
+      const audioBlob = base64ToBlob(data.audioContent, 'audio/mpeg');
+      const audioUrl = URL.createObjectURL(audioBlob);
+      
+      if (audioRef.current) {
+        audioRef.current.pause();
+      }
+      
+      const audio = new Audio(audioUrl);
+      audioRef.current = audio;
+      
+      audio.onended = () => {
+        setIsPlayingAudio(false);
+        URL.revokeObjectURL(audioUrl);
+      };
+      
+      await audio.play();
+    } catch (error: any) {
+      console.error("Error playing audio:", error);
+      setIsPlayingAudio(false);
+      toast({
+        title: "Audio Error",
+        description: "Failed to play voice response",
+        variant: "destructive",
+      });
+    }
+  };
+
+  const base64ToBlob = (base64: string, type: string) => {
+    const binaryString = atob(base64);
+    const bytes = new Uint8Array(binaryString.length);
+    for (let i = 0; i < binaryString.length; i++) {
+      bytes[i] = binaryString.charCodeAt(i);
+    }
+    return new Blob([bytes], { type });
   };
 
   const handleKeyPress = (e: React.KeyboardEvent) => {
@@ -175,18 +274,37 @@ const WellnessChat = () => {
           </ScrollArea>
 
           <div className="border-t border-gray-200 p-4 bg-white">
+            <div className="flex items-center gap-2 mb-2">
+              <Button
+                variant={autoPlayVoice ? "default" : "outline"}
+                size="sm"
+                onClick={() => setAutoPlayVoice(!autoPlayVoice)}
+                className="text-xs"
+              >
+                <Volume2 className="w-3 h-3 mr-1" />
+                Auto-play Voice: {autoPlayVoice ? "ON" : "OFF"}
+              </Button>
+            </div>
             <div className="flex gap-2">
+              <Button
+                onClick={handleVoiceInput}
+                disabled={sending}
+                variant={isRecording ? "destructive" : "outline"}
+                className="rounded-xl"
+              >
+                {isRecording ? <MicOff className="w-5 h-5" /> : <Mic className="w-5 h-5" />}
+              </Button>
               <Input
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 onKeyPress={handleKeyPress}
                 placeholder="Type your message..."
-                disabled={sending}
+                disabled={sending || isRecording}
                 className="flex-1 bg-gray-50 border-gray-200 focus:border-profile-button focus:ring-profile-button rounded-xl"
               />
               <Button
-                onClick={handleSend}
-                disabled={!input.trim() || sending}
+                onClick={() => handleSend()}
+                disabled={!input.trim() || sending || isRecording}
                 className="bg-profile-button hover:bg-profile-button/90 text-white rounded-xl px-6"
               >
                 {sending ? (
