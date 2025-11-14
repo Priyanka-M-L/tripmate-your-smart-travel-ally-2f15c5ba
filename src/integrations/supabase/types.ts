@@ -135,6 +135,78 @@ export type Database = {
           },
         ]
       }
+      wellness_profiles: {
+        Row: {
+          altitude_sensitivity: string | null
+          anxiety: string | null
+          avoid_flights: boolean | null
+          claustrophobia: string | null
+          created_at: string
+          fear_of_flights: string | null
+          heart_sensitivity: string | null
+          id: string
+          mental_wellness: string | null
+          mood_issues: string | null
+          motion_sickness: string | null
+          need_calming_notifications: boolean | null
+          need_customized_destinations: boolean | null
+          need_frequent_breaks: boolean | null
+          need_hydration_reminders: boolean | null
+          need_medical_alerts: boolean | null
+          prefer_aisle_seat: boolean | null
+          prefer_window_seat: boolean | null
+          updated_at: string
+          user_id: string
+          vomiting_tendency: string | null
+        }
+        Insert: {
+          altitude_sensitivity?: string | null
+          anxiety?: string | null
+          avoid_flights?: boolean | null
+          claustrophobia?: string | null
+          created_at?: string
+          fear_of_flights?: string | null
+          heart_sensitivity?: string | null
+          id?: string
+          mental_wellness?: string | null
+          mood_issues?: string | null
+          motion_sickness?: string | null
+          need_calming_notifications?: boolean | null
+          need_customized_destinations?: boolean | null
+          need_frequent_breaks?: boolean | null
+          need_hydration_reminders?: boolean | null
+          need_medical_alerts?: boolean | null
+          prefer_aisle_seat?: boolean | null
+          prefer_window_seat?: boolean | null
+          updated_at?: string
+          user_id: string
+          vomiting_tendency?: string | null
+        }
+        Update: {
+          altitude_sensitivity?: string | null
+          anxiety?: string | null
+          avoid_flights?: boolean | null
+          claustrophobia?: string | null
+          created_at?: string
+          fear_of_flights?: string | null
+          heart_sensitivity?: string | null
+          id?: string
+          mental_wellness?: string | null
+          mood_issues?: string | null
+          motion_sickness?: string | null
+          need_calming_notifications?: boolean | null
+          need_customized_destinations?: boolean | null
+          need_frequent_breaks?: boolean | null
+          need_hydration_reminders?: boolean | null
+          need_medical_alerts?: boolean | null
+          prefer_aisle_seat?: boolean | null
+          prefer_window_seat?: boolean | null
+          updated_at?: string
+          user_id?: string
+          vomiting_tendency?: string | null
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
