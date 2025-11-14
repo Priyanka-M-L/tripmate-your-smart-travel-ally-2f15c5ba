@@ -6,7 +6,7 @@ import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { ThemeToggle } from "@/components/ThemeToggle";
-import { Plane, User, LogOut, ArrowLeft, Mail, Calendar } from "lucide-react";
+import { Plane, User, LogOut, ArrowLeft, Mail, Calendar, Heart } from "lucide-react";
 import { toast } from "sonner";
 import type { User as SupabaseUser } from "@supabase/supabase-js";
 
@@ -186,6 +186,23 @@ const Profile = () => {
                 {updating ? "Updating..." : "Update Profile"}
               </Button>
             </div>
+          </Card>
+
+          {/* Wellness & Support */}
+          <Card className="p-8 bg-white border-0 shadow-elegant rounded-[16px]">
+            <h3 className="text-xl font-bold text-profile-text mb-4 flex items-center gap-2">
+              <Heart className="w-5 h-5 text-profile-turquoise" />
+              Wellness & Support
+            </h3>
+            <p className="text-gray-600 mb-6">
+              Set your health sensitivities and travel preferences for a more comfortable journey
+            </p>
+            <Button
+              onClick={() => navigate("/wellness")}
+              className="w-full bg-profile-turquoise hover:bg-profile-turquoise/90 text-white shadow-soft hover:shadow-elegant transition-all duration-300 rounded-lg h-12 font-semibold"
+            >
+              Manage Wellness Preferences
+            </Button>
           </Card>
 
           {/* Account Actions */}
