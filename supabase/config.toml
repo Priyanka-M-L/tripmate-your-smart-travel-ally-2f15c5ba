@@ -1,1 +1,7 @@
 project_id = "gsvqdlxvntpmhcuyarsb"
+
+[functions.generate-itinerary]
+verify_jwt = false
+
+[functions.wellness-chat]
+verify_jwt = false

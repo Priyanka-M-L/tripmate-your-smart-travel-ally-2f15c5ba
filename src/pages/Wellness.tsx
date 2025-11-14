@@ -249,7 +249,13 @@ const Wellness = () => {
           </div>
         </Card>
 
-        <div className="flex justify-center mt-8">
+        <div className="flex flex-col gap-4 items-center mt-8">
+          <Button
+            onClick={() => navigate("/wellness-chat")}
+            className="bg-gradient-to-r from-profile-button to-blue-500 text-white hover:from-profile-button/90 hover:to-blue-500/90 px-8 py-6 text-lg rounded-xl shadow-lg"
+          >
+            💬 Chat with Wellness Assistant
+          </Button>
           <Button
             onClick={handleSave}
             disabled={saving}
