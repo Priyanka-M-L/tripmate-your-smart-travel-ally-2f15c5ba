@@ -14,45 +14,36 @@ const Index = () => {
   return (
     <div className="min-h-screen">
       {/* Header */}
-      <header className="absolute top-0 left-0 right-0 z-10 py-4">
-        <div className="container mx-auto px-4 flex justify-between items-center">
+      <header className="bg-card border-b border-border sticky top-0 z-50 shadow-sm">
+        <div className="container mx-auto px-4 py-4 flex justify-between items-center">
           <div className="flex items-center gap-2">
-            <Plane className="w-8 h-8 text-white" />
-            <h1 className="text-2xl font-bold text-white">TripMate</h1>
+            <Plane className="w-8 h-8 text-primary" />
+            <h1 className="text-2xl font-bold text-foreground">TripMate</h1>
           </div>
           <Button
             onClick={() => navigate("/auth")}
-            variant="outline"
-            className="text-white border-white hover:bg-white/20"
+            variant="default"
+            className="gap-2"
           >
-            <LogIn className="w-4 h-4 mr-2" />
+            <LogIn className="w-4 h-4" />
             Login / Sign Up
           </Button>
         </div>
       </header>
 
       {/* Hero Section */}
-      <section className="relative h-[600px] flex items-center justify-center overflow-hidden">
-        <div className="absolute inset-0">
-          <img 
-            src={heroImage} 
-            alt="Travel adventure" 
-            className="w-full h-full object-cover"
-          />
-          <div className="absolute inset-0 bg-gradient-overlay" />
-        </div>
-        
-        <div className="relative z-10 container mx-auto px-4 text-center text-white">
+      <section className="relative h-[500px] flex items-center justify-center overflow-hidden bg-gradient-hero">
+        <div className="relative z-10 container mx-auto px-4 text-center">
           <div className="flex items-center justify-center gap-2 mb-4">
-            <Compass className="w-12 h-12" />
+            <Compass className="w-12 h-12 text-primary" />
           </div>
-          <h1 className="text-5xl md:text-6xl font-bold mb-6">
+          <h1 className="text-5xl md:text-6xl font-bold mb-6 text-foreground">
             TripMate
           </h1>
-          <p className="text-xl md:text-2xl mb-8 max-w-2xl mx-auto">
+          <p className="text-xl md:text-2xl mb-8 max-w-2xl mx-auto text-foreground">
             Your AI-Powered Smart Travel Companion
           </p>
-          <p className="text-lg mb-8 max-w-xl mx-auto opacity-90">
+          <p className="text-lg mb-8 max-w-xl mx-auto text-muted-foreground">
             Create personalized itineraries in seconds. Let AI handle the planning while you focus on the adventure.
           </p>
         </div>
