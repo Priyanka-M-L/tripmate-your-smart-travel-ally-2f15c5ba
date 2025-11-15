@@ -32,13 +32,19 @@ export const WeatherCard = ({
       setError(false);
 
       // Using Open-Meteo API (no key required)
-      // For simplicity, using fixed coordinates for Paris as example
-      // In production, you'd geocode the destination first
+      // Using fixed coordinates for Paris as example
       const lat = 48.8566;
       const lon = 2.3522;
 
+      // Use current date for forecast (API only allows limited future range)
+      const today = new Date();
+      const futureDate = new Date();
+      futureDate.setDate(today.getDate() + 7);
+      
+      const formatDate = (date: Date) => date.toISOString().split('T')[0];
+
       const response = await fetch(
-        `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&daily=temperature_2m_max,temperature_2m_min&start_date=${startDate}&end_date=${endDate}&timezone=auto`
+        `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&daily=temperature_2m_max,temperature_2m_min,weather_code&start_date=${formatDate(today)}&end_date=${formatDate(futureDate)}&timezone=auto`
       );
 
       if (!response.ok) throw new Error("Weather fetch failed");
@@ -57,6 +63,7 @@ export const WeatherCard = ({
 
       setWeather(weatherData);
     } catch (err) {
+      console.error("Weather fetch error:", err);
       setError(true);
     } finally {
       setLoading(false);

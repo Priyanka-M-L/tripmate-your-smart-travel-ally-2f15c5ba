@@ -259,10 +259,30 @@ const TripDetail = () => {
             
             {items.length === 0 ? (
               <Card className="p-8 text-center bg-gradient-card border-border shadow-card">
-                <p className="text-muted-foreground mb-4">
-                  No itinerary items yet. Add activities or generate an AI
-                  itinerary!
+                <Sparkles className="w-12 h-12 mx-auto mb-4 text-primary animate-pulse" />
+                <h3 className="text-xl font-semibold text-foreground mb-2">
+                  Your Itinerary is Empty
+                </h3>
+                <p className="text-muted-foreground mb-6">
+                  Start building your perfect trip! You can either add activities manually or let our AI create a complete itinerary for you.
                 </p>
+                <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                  <Button 
+                    onClick={() => setDialogOpen(true)}
+                    className="gap-2"
+                  >
+                    <Plus className="w-4 h-4" />
+                    Add Activity Manually
+                  </Button>
+                  <Button 
+                    onClick={generateAIItinerary} 
+                    disabled={generatingAI}
+                    className="bg-secondary hover:opacity-90 gap-2"
+                  >
+                    <Sparkles className="w-4 h-4" />
+                    {generatingAI ? "Generating..." : "Generate AI Itinerary"}
+                  </Button>
+                </div>
               </Card>
             ) : (
               <Tabs value={viewMode} onValueChange={handleViewModeChange}>

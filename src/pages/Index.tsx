@@ -71,12 +71,12 @@ const Index = () => {
       {/* Features Section */}
       <section className="py-16 bg-muted/30">
         <div className="container mx-auto px-4">
-          <h2 className="text-3xl font-bold text-center text-foreground mb-12">
+          <h2 className="text-3xl font-bold text-center text-foreground mb-12 animate-fade-in">
             Why Choose TripMate?
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
-            <div className="text-center">
-              <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-primary/10 mb-4">
+            <div className="text-center animate-fade-in hover-scale" style={{ animationDelay: '0.1s' }}>
+              <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-primary/10 mb-4 transition-all hover:bg-primary/20 hover:scale-110">
                 <Sparkles className="w-8 h-8 text-primary" />
               </div>
               <h3 className="text-xl font-bold text-foreground mb-2">AI-Powered Planning</h3>
@@ -84,8 +84,8 @@ const Index = () => {
                 Smart algorithms create optimized itineraries based on your preferences and budget
               </p>
             </div>
-            <div className="text-center">
-              <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-primary/10 mb-4">
+            <div className="text-center animate-fade-in hover-scale" style={{ animationDelay: '0.2s' }}>
+              <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-primary/10 mb-4 transition-all hover:bg-primary/20 hover:scale-110">
                 <Globe className="w-8 h-8 text-primary" />
               </div>
               <h3 className="text-xl font-bold text-foreground mb-2">Worldwide Destinations</h3>
@@ -93,8 +93,8 @@ const Index = () => {
                 Explore any destination with personalized recommendations and local insights
               </p>
             </div>
-            <div className="text-center">
-              <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-primary/10 mb-4">
+            <div className="text-center animate-fade-in hover-scale" style={{ animationDelay: '0.3s' }}>
+              <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-primary/10 mb-4 transition-all hover:bg-primary/20 hover:scale-110">
                 <Shield className="w-8 h-8 text-primary" />
               </div>
               <h3 className="text-xl font-bold text-foreground mb-2">Time & Money Saver</h3>
@@ -109,25 +109,31 @@ const Index = () => {
       {/* Popular Destinations */}
       <section className="py-16 bg-background">
         <div className="container mx-auto px-4">
-          <h2 className="text-3xl font-bold text-center text-foreground mb-12">
+          <h2 className="text-3xl font-bold text-center text-foreground mb-12 animate-fade-in">
             Popular Destinations
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
-            <DestinationCard
-              title="Tropical Paradise"
-              image={beachImage}
-              description="Crystal clear waters and pristine beaches await your discovery"
-            />
-            <DestinationCard
-              title="Mountain Adventures"
-              image={mountainImage}
-              description="Majestic peaks and breathtaking landscapes for the adventurous soul"
-            />
-            <DestinationCard
-              title="Urban Exploration"
-              image={cityImage}
-              description="Vibrant cities filled with culture, cuisine, and endless excitement"
-            />
+            <div className="animate-scale-in" style={{ animationDelay: '0.1s' }}>
+              <DestinationCard
+                title="Tropical Paradise"
+                image={beachImage}
+                description="Crystal clear waters and pristine beaches await your discovery"
+              />
+            </div>
+            <div className="animate-scale-in" style={{ animationDelay: '0.2s' }}>
+              <DestinationCard
+                title="Mountain Adventures"
+                image={mountainImage}
+                description="Majestic peaks and breathtaking landscapes for the adventurous soul"
+              />
+            </div>
+            <div className="animate-scale-in" style={{ animationDelay: '0.3s' }}>
+              <DestinationCard
+                title="Urban Exploration"
+                image={cityImage}
+                description="Vibrant cities filled with culture, cuisine, and endless excitement"
+              />
+            </div>
           </div>
         </div>
       </section>
