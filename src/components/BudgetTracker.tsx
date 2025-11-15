@@ -8,9 +8,11 @@ interface BudgetTrackerProps {
 }
 
 export const BudgetTracker = ({ budget, spent }: BudgetTrackerProps) => {
-  const remaining = budget - spent;
-  const percentageSpent = (spent / budget) * 100;
-  const isOverBudget = spent > budget;
+  const totalBudget = typeof budget === "number" && !Number.isNaN(budget) ? budget : 0;
+  const totalSpent = typeof spent === "number" && !Number.isNaN(spent) ? spent : 0;
+  const remaining = totalBudget - totalSpent;
+  const percentageSpent = totalBudget > 0 ? (totalSpent / totalBudget) * 100 : 0;
+  const isOverBudget = totalSpent > totalBudget;
 
   return (
     <Card className="p-6 bg-gradient-card border-border">
@@ -23,14 +25,14 @@ export const BudgetTracker = ({ budget, spent }: BudgetTrackerProps) => {
         <div className="flex justify-between items-center">
           <span className="text-sm text-muted-foreground">Total Budget</span>
           <span className="font-semibold text-foreground">
-            ${budget.toFixed(2)}
+            ${totalBudget.toFixed(2)}
           </span>
         </div>
 
         <div className="flex justify-between items-center">
           <span className="text-sm text-muted-foreground">Spent</span>
           <span className="font-semibold text-foreground">
-            ${spent.toFixed(2)}
+            ${totalSpent.toFixed(2)}
           </span>
         </div>
 

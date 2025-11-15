@@ -236,7 +236,7 @@ const TripDetail = () => {
 
         <div id="trip-content" className="space-y-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 animate-fade-in">
-            <BudgetTracker budget={trip.budget} spent={totalSpent} />
+            <BudgetTracker budget={trip.budget ?? 0} spent={totalSpent} />
             <WeatherCard
               destination={trip.destination}
               startDate={trip.start_date}
