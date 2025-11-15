@@ -7,7 +7,8 @@ import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { useToast } from "@/hooks/use-toast";
 import { useVoiceRecorder } from "@/hooks/useVoiceRecorder";
-import { ArrowLeft, Send, Bot, User as UserIcon, Loader2, Mic, MicOff, Volume2 } from "lucide-react";
+import { Navigation } from "@/components/Navigation";
+import { Send, Bot, User as UserIcon, Loader2, Mic, MicOff, Volume2 } from "lucide-react";
 import { LoadingSpinner } from "@/components/LoadingSpinner";
 
 interface Message {
@@ -212,23 +213,16 @@ const WellnessChat = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-profile-gradient-start via-profile-gradient-mid to-profile-gradient-end py-8 px-4">
-      <div className="max-w-4xl mx-auto">
-        <Button
-          variant="ghost"
-          onClick={() => navigate("/wellness")}
-          className="mb-6 text-white hover:bg-white/10"
-        >
-          <ArrowLeft className="mr-2 h-4 w-4" />
-          Back to Wellness
-        </Button>
+    <div className="min-h-screen bg-gradient-profile">
+      <Navigation />
 
+      <div className="max-w-4xl mx-auto py-8 px-4">
         <div className="text-center mb-8">
-          <h1 className="text-4xl font-bold text-white mb-2">Wellness Chat Assistant</h1>
-          <p className="text-white/80">Get personalized emotional support and travel advice</p>
+          <h1 className="text-4xl font-bold text-foreground mb-2">Wellness Chat Assistant</h1>
+          <p className="text-muted-foreground">Get personalized emotional support and travel advice</p>
         </div>
 
-        <Card className="bg-white shadow-xl rounded-2xl overflow-hidden h-[600px] flex flex-col">
+        <Card className="bg-card shadow-xl rounded-2xl overflow-hidden h-[600px] flex flex-col">
           <ScrollArea ref={scrollRef} className="flex-1 p-6">
             <div className="space-y-6">
               {messages.map((message, index) => (
@@ -237,15 +231,15 @@ const WellnessChat = () => {
                   className={`flex gap-3 ${message.role === "user" ? "justify-end" : "justify-start"}`}
                 >
                   {message.role === "assistant" && (
-                    <div className="w-8 h-8 rounded-full bg-profile-button flex items-center justify-center flex-shrink-0">
-                      <Bot className="w-5 h-5 text-white" />
+                    <div className="w-8 h-8 rounded-full bg-primary flex items-center justify-center flex-shrink-0">
+                      <Bot className="w-5 h-5 text-primary-foreground" />
                     </div>
                   )}
                   <div
                     className={`max-w-[80%] rounded-2xl px-4 py-3 ${
                       message.role === "user"
-                        ? "bg-profile-button text-white"
-                        : "bg-gray-100 text-profile-text"
+                        ? "bg-primary text-primary-foreground"
+                        : "bg-muted text-foreground"
                     }`}
                   >
                     <p className="whitespace-pre-wrap break-words">{message.content}</p>
@@ -254,26 +248,26 @@ const WellnessChat = () => {
                     </span>
                   </div>
                   {message.role === "user" && (
-                    <div className="w-8 h-8 rounded-full bg-gray-300 flex items-center justify-center flex-shrink-0">
-                      <UserIcon className="w-5 h-5 text-gray-600" />
+                    <div className="w-8 h-8 rounded-full bg-muted flex items-center justify-center flex-shrink-0">
+                      <UserIcon className="w-5 h-5 text-muted-foreground" />
                     </div>
                   )}
                 </div>
               ))}
               {sending && (
                 <div className="flex gap-3 justify-start">
-                  <div className="w-8 h-8 rounded-full bg-profile-button flex items-center justify-center flex-shrink-0">
-                    <Bot className="w-5 h-5 text-white" />
+                  <div className="w-8 h-8 rounded-full bg-primary flex items-center justify-center flex-shrink-0">
+                    <Bot className="w-5 h-5 text-primary-foreground" />
                   </div>
-                  <div className="bg-gray-100 rounded-2xl px-4 py-3">
-                    <Loader2 className="w-5 h-5 animate-spin text-profile-button" />
+                  <div className="bg-muted rounded-2xl px-4 py-3">
+                    <Loader2 className="w-5 h-5 animate-spin text-primary" />
                   </div>
                 </div>
               )}
             </div>
           </ScrollArea>
 
-          <div className="border-t border-gray-200 p-4 bg-white">
+          <div className="border-t border-border p-4 bg-card">
             <div className="flex items-center gap-2 mb-2">
               <Button
                 variant={autoPlayVoice ? "default" : "outline"}

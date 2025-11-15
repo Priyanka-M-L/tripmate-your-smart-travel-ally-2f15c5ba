@@ -12,6 +12,7 @@ import { BudgetTracker } from "@/components/BudgetTracker";
 import { TripMap } from "@/components/TripMap";
 import { TripTimeline } from "@/components/TripTimeline";
 import { ThemeToggle } from "@/components/ThemeToggle";
+import { Navigation } from "@/components/Navigation";
 import { ArrowLeft, Plus, Download, Sparkles, List, Calendar } from "lucide-react";
 import { toast } from "sonner";
 import html2pdf from "html2pdf.js";
@@ -187,21 +188,22 @@ const TripDetail = () => {
 
   return (
     <div className="min-h-screen bg-background">
-      <div className="bg-gradient-hero text-white py-8 shadow-soft">
+      <Navigation />
+      
+      <div className="bg-gradient-hero py-8 shadow-soft">
         <div className="container mx-auto px-4">
           <div className="flex items-center justify-between mb-4">
             <Button
               variant="ghost"
               onClick={() => navigate("/dashboard")}
-              className="text-white hover:bg-white/20"
+              className="text-foreground hover:bg-accent"
             >
               <ArrowLeft className="w-4 h-4 mr-2" />
               Back to Dashboard
             </Button>
-            <ThemeToggle />
           </div>
-          <h1 className="text-4xl font-bold mb-2">{trip.title}</h1>
-          <p className="text-lg opacity-90">
+          <h1 className="text-4xl font-bold mb-2 text-foreground">{trip.title}</h1>
+          <p className="text-lg text-muted-foreground">
             {trip.destination} • {tripDays} days
           </p>
         </div>
