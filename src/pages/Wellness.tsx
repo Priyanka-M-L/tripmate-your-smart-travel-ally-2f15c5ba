@@ -7,7 +7,8 @@ import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useToast } from "@/hooks/use-toast";
-import { ArrowLeft, Heart, Plane, Brain, Activity, Wind, Mountain, Smile, AlertCircle } from "lucide-react";
+import { Navigation } from "@/components/Navigation";
+import { Heart, Activity, Plane, Brain, Wind, Mountain, Smile, AlertCircle, MessageCircle } from "lucide-react";
 import { LoadingSpinner } from "@/components/LoadingSpinner";
 
 interface WellnessProfile {
@@ -176,28 +177,21 @@ const Wellness = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-profile-gradient-start via-profile-gradient-mid to-profile-gradient-end py-8 px-4">
-      <div className="max-w-4xl mx-auto">
-        <Button
-          variant="ghost"
-          onClick={() => navigate("/profile")}
-          className="mb-6 text-white hover:bg-white/10"
-        >
-          <ArrowLeft className="mr-2 h-4 w-4" />
-          Back to Profile
-        </Button>
+    <div className="min-h-screen bg-gradient-profile">
+      <Navigation />
 
+      <div className="max-w-4xl mx-auto py-8 px-4">
         <div className="text-center mb-8">
-          <h1 className="text-4xl font-bold text-white mb-2">Travel Wellness & Support</h1>
-          <p className="text-white/80">Help us personalize your travel experience for your comfort and wellbeing</p>
+          <h1 className="text-4xl font-bold text-foreground mb-2">Travel Wellness & Support</h1>
+          <p className="text-muted-foreground">Help us personalize your travel experience for your comfort and wellbeing</p>
         </div>
 
         <Card className="p-8 mb-6 bg-white shadow-xl rounded-2xl">
-          <h2 className="text-2xl font-bold text-profile-text mb-6 flex items-center gap-2">
-            <Heart className="h-6 w-6 text-profile-button" />
+          <h2 className="text-2xl font-bold text-foreground mb-6 flex items-center gap-2">
+            <Heart className="h-6 w-6 text-primary" />
             Health & Emotional Sensitivities
           </h2>
-          <p className="text-profile-text/70 mb-6">
+          <p className="text-muted-foreground mb-6">
             Select the severity of any conditions that affect your travel comfort
           </p>
 
@@ -205,8 +199,8 @@ const Wellness = () => {
             {conditions.map(({ key, label, icon: Icon }) => (
               <div key={key} className="flex items-center justify-between pb-4 border-b border-gray-100 last:border-0">
                 <div className="flex items-center gap-3">
-                  <Icon className="h-5 w-5 text-profile-button" />
-                  <Label className="text-profile-text font-medium">{label}</Label>
+                  <Icon className="h-5 w-5 text-primary" />
+                  <Label className="text-foreground font-medium">{label}</Label>
                 </div>
                 <Select
                   value={profile[key as keyof WellnessProfile] as string}
@@ -228,18 +222,18 @@ const Wellness = () => {
         </Card>
 
         <Card className="p-8 bg-white shadow-xl rounded-2xl">
-          <h2 className="text-2xl font-bold text-profile-text mb-6 flex items-center gap-2">
-            <Activity className="h-6 w-6 text-profile-button" />
+          <h2 className="text-2xl font-bold text-foreground mb-6 flex items-center gap-2">
+            <Activity className="h-6 w-6 text-primary" />
             Travel Preferences & Support
           </h2>
-          <p className="text-profile-text/70 mb-6">
+          <p className="text-muted-foreground mb-6">
             Choose the accommodations and support features that work best for you
           </p>
 
           <div className="space-y-4">
             {preferences.map(({ key, label }) => (
               <div key={key} className="flex items-center justify-between py-3">
-                <Label className="text-profile-text">{label}</Label>
+                <Label className="text-foreground">{label}</Label>
                 <Switch
                   checked={profile[key as keyof WellnessProfile] as boolean}
                   onCheckedChange={(checked) => updatePreference(key, checked)}

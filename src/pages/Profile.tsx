@@ -1,12 +1,12 @@
-import { useEffect, useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { ThemeToggle } from "@/components/ThemeToggle";
-import { Plane, User, LogOut, ArrowLeft, Mail, Calendar, Heart } from "lucide-react";
+import { Navigation } from "@/components/Navigation";
+import { User, Mail, Calendar, Heart, LogOut } from "lucide-react";
 import { toast } from "sonner";
 import type { User as SupabaseUser } from "@supabase/supabase-js";
 
@@ -75,6 +75,7 @@ const Profile = () => {
     }
   };
 
+
   const handleLogout = async () => {
     await supabase.auth.signOut();
     navigate("/");
@@ -90,37 +91,16 @@ const Profile = () => {
 
   return (
     <div className="min-h-screen bg-gradient-profile">
-      {/* Header */}
-      <header className="bg-transparent backdrop-blur-sm text-white py-6">
-        <div className="container mx-auto px-4">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-4">
-              <Button
-                variant="ghost"
-                size="icon"
-                onClick={() => navigate("/dashboard")}
-                className="text-white hover:bg-white/20 rounded-full"
-              >
-                <ArrowLeft className="w-5 h-5" />
-              </Button>
-              <div className="flex items-center gap-2">
-                <Plane className="w-8 h-8" />
-                <h1 className="text-3xl font-bold">TripMate</h1>
-              </div>
-            </div>
-            <ThemeToggle />
-          </div>
-        </div>
-      </header>
+      <Navigation />
 
       {/* Main Content */}
       <div className="container mx-auto px-4 py-12">
         <div className="max-w-2xl mx-auto space-y-6 animate-fade-in">
           <div className="flex items-center gap-3 mb-8">
-            <div className="p-3 bg-white rounded-full shadow-elegant">
-              <User className="w-8 h-8 text-profile-text" />
+            <div className="p-3 bg-card rounded-full shadow-elegant">
+              <User className="w-8 h-8 text-foreground" />
             </div>
-            <h2 className="text-3xl font-bold text-white">My Profile</h2>
+            <h2 className="text-3xl font-bold text-foreground">My Profile</h2>
           </div>
 
           {/* Profile Card */}
