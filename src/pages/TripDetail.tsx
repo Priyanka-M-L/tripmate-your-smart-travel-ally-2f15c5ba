@@ -2,18 +2,11 @@ import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { LoadingSpinner } from "@/components/LoadingSpinner";
-import { ItineraryItemCard } from "@/components/ItineraryItemCard";
 import { CreateItineraryDialog } from "@/components/CreateItineraryDialog";
-import { WeatherCard } from "@/components/WeatherCard";
 import { BudgetTracker } from "@/components/BudgetTracker";
-import { TripMap } from "@/components/TripMap";
-import { TripTimeline } from "@/components/TripTimeline";
-import { ThemeToggle } from "@/components/ThemeToggle";
 import { Navigation } from "@/components/Navigation";
-import { ArrowLeft, Plus, Download, Sparkles, List, Calendar } from "lucide-react";
+import { ArrowLeft, Plus, Download, Sparkles } from "lucide-react";
 import { toast } from "sonner";
 import html2pdf from "html2pdf.js";
 
@@ -237,18 +230,10 @@ const TripDetail = () => {
         </div>
 
         <div id="trip-content" className="space-y-8">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 animate-fade-in">
+          <div className="animate-fade-in">
             <BudgetTracker budget={trip.budget ?? 0} spent={totalSpent} />
-            <WeatherCard
-              destination={trip.destination}
-              startDate={trip.start_date}
-              endDate={trip.end_date}
-            />
           </div>
 
-          <div className="animate-fade-in" style={{ animationDelay: '0.1s' }}>
-            <TripMap items={items} />
-          </div>
 
           <div className="animate-fade-in" style={{ animationDelay: '0.2s' }}>
             <div className="flex items-center justify-between mb-6">
