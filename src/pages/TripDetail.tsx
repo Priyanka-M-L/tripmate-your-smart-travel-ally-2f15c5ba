@@ -2,13 +2,19 @@ import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { LoadingSpinner } from "@/components/LoadingSpinner";
+import { ItineraryItemCard } from "@/components/ItineraryItemCard";
+import { TripTimeline } from "@/components/TripTimeline";
 import { CreateItineraryDialog } from "@/components/CreateItineraryDialog";
 import { BudgetTracker } from "@/components/BudgetTracker";
 import { Navigation } from "@/components/Navigation";
-import { ArrowLeft, Plus, Download, Sparkles } from "lucide-react";
+import { ArrowLeft, Plus, Download, Sparkles, List, Calendar } from "lucide-react";
 import { toast } from "sonner";
 import html2pdf from "html2pdf.js";
+// ... keep existing code (types and component logic below)
+
 
 interface Trip {
   id: string;
@@ -89,6 +95,11 @@ const TripDetail = () => {
     } catch (error: any) {
       toast.error("Failed to delete item");
     }
+  };
+
+  const handleBack = () => {
+    if (window.history.length > 1) navigate(-1);
+    else navigate("/dashboard");
   };
 
   const generateAIItinerary = async () => {
@@ -188,11 +199,12 @@ const TripDetail = () => {
           <div className="flex items-center justify-between mb-4">
             <Button
               variant="ghost"
-              onClick={() => navigate("/dashboard")}
+              onClick={handleBack}
               className="text-foreground hover:bg-accent"
             >
               <ArrowLeft className="w-4 h-4 mr-2" />
-              Back to Dashboard
+              
+              Back
             </Button>
           </div>
           <h1 className="text-4xl font-bold mb-2 text-foreground">{trip.title}</h1>

@@ -58,12 +58,12 @@ const Auth = () => {
       const { error } = await supabase.auth.signUp({
         email: signupData.email,
         password: signupData.password,
-        options: {
-          data: {
-            full_name: signupData.fullName,
+          options: {
+            data: {
+              full_name: signupData.fullName,
+            },
+            emailRedirectTo: `${window.location.origin}/auth/callback`,
           },
-          emailRedirectTo: `${window.location.origin}/dashboard`,
-        },
       });
 
       if (error) throw error;
@@ -82,7 +82,7 @@ const Auth = () => {
       const { error } = await supabase.auth.signInWithOAuth({
         provider: "google",
         options: {
-          redirectTo: `${window.location.origin}/dashboard`,
+          redirectTo: `${window.location.origin}/auth/callback`,
         },
       });
 
