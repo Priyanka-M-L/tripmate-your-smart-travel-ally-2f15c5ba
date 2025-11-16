@@ -31,10 +31,19 @@ export const WeatherCard = ({
       setLoading(true);
       setError(false);
 
-      // Using Open-Meteo API (no key required)
-      // Using fixed coordinates for Paris as example
-      const lat = 48.8566;
-      const lon = 2.3522;
+      // First, geocode the destination to get coordinates
+      const geocodeResponse = await fetch(
+        `https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(destination)}&count=1&language=en&format=json`
+      );
+
+      if (!geocodeResponse.ok) throw new Error("Geocoding failed");
+      
+      const geocodeData = await geocodeResponse.json();
+      if (!geocodeData.results || geocodeData.results.length === 0) {
+        throw new Error("Location not found");
+      }
+
+      const { latitude: lat, longitude: lon } = geocodeData.results[0];
 
       // Use current date for forecast (API only allows limited future range)
       const today = new Date();
