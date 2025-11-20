@@ -72,7 +72,7 @@ export const SmartInsights = ({ destination, startDate, interests }: SmartInsigh
 
   if (loading) {
     return (
-      <Card className="p-6 bg-gradient-to-br from-blue-50 to-purple-50 dark:from-blue-950 dark:to-purple-950 border-primary/20">
+      <Card className="p-6 glass-card hover-lift animate-pulse">
         <div className="flex items-center justify-center py-8">
           <LoadingSpinner message="Loading smart insights..." />
         </div>
@@ -89,13 +89,15 @@ export const SmartInsights = ({ destination, startDate, interests }: SmartInsigh
       {/* Header */}
       <div className="flex items-center gap-2 mb-4">
         <TrendingUp className="w-6 h-6 text-primary" />
-        <h3 className="text-2xl font-bold text-foreground">Smart Travel Insights</h3>
+        <h3 className="text-2xl font-bold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
+          Smart Travel Insights
+        </h3>
       </div>
 
       {/* Main Insights Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {/* Crowd Forecast */}
-        <Card className="p-5 bg-gradient-to-br from-background to-muted/30 border-border shadow-lg hover:shadow-xl transition-all">
+        <Card className="p-5 glass-card hover-lift">
           <div className="flex items-start gap-3">
             <div className="p-2 bg-primary/10 rounded-lg">
               <Users className="w-5 h-5 text-primary" />
@@ -116,7 +118,7 @@ export const SmartInsights = ({ destination, startDate, interests }: SmartInsigh
         </Card>
 
         {/* Best Time to Visit */}
-        <Card className="p-5 bg-gradient-to-br from-background to-muted/30 border-border shadow-lg hover:shadow-xl transition-all">
+        <Card className="p-5 glass-card hover-lift">
           <div className="flex items-start gap-3">
             <div className="p-2 bg-green-100 dark:bg-green-900/30 rounded-lg">
               <Clock className="w-5 h-5 text-green-600 dark:text-green-400" />
@@ -130,7 +132,7 @@ export const SmartInsights = ({ destination, startDate, interests }: SmartInsigh
         </Card>
 
         {/* Weather Summary */}
-        <Card className="p-5 bg-gradient-to-br from-background to-muted/30 border-border shadow-lg hover:shadow-xl transition-all">
+        <Card className="p-5 glass-card hover-lift">
           <div className="flex items-start gap-3">
             <div className="p-2 bg-blue-100 dark:bg-blue-900/30 rounded-lg">
               <CloudSun className="w-5 h-5 text-blue-600 dark:text-blue-400" />
@@ -143,7 +145,7 @@ export const SmartInsights = ({ destination, startDate, interests }: SmartInsigh
         </Card>
 
         {/* Place Status */}
-        <Card className="p-5 bg-gradient-to-br from-background to-muted/30 border-border shadow-lg hover:shadow-xl transition-all">
+        <Card className="p-5 glass-card hover-lift">
           <div className="flex items-start gap-3">
             <div className="p-2 bg-purple-100 dark:bg-purple-900/30 rounded-lg">
               <DoorOpen className="w-5 h-5 text-purple-600 dark:text-purple-400" />

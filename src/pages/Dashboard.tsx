@@ -88,16 +88,18 @@ const Dashboard = () => {
   }
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen">
       <Navigation />
 
       {/* Main Content */}
       <div className="container mx-auto px-4 py-12">
         <div className="flex items-center justify-between mb-8 animate-fade-in">
-          <h2 className="text-3xl font-bold text-foreground">My Trips</h2>
+          <h2 className="text-3xl font-bold text-foreground bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
+            My Trips
+          </h2>
           <Button 
             onClick={() => setCreateDialogOpen(true)}
-            className="bg-primary hover:opacity-90 shadow-soft hover:shadow-hover transition-all hover:scale-105"
+            className="glass-card hover-lift bg-primary/90 hover:bg-primary text-primary-foreground"
           >
             <Plus className="w-4 h-4 mr-2" />
             Create New Trip
@@ -105,8 +107,8 @@ const Dashboard = () => {
         </div>
 
         {trips.length === 0 ? (
-          <Card className="p-12 text-center bg-gradient-card border-border shadow-card animate-scale-in">
-            <Plane className="w-16 h-16 mx-auto mb-4 text-primary animate-pulse" />
+          <Card className="p-12 text-center glass-card animate-scale-in hover-lift">
+            <Plane className="w-16 h-16 mx-auto mb-4 text-primary animate-float" />
             <h3 className="text-xl font-semibold text-foreground mb-2">
               No trips yet
             </h3>
@@ -115,7 +117,7 @@ const Dashboard = () => {
             </p>
             <Button 
               onClick={() => setCreateDialogOpen(true)}
-              className="bg-primary hover:opacity-90 shadow-soft hover:scale-105 transition-all"
+              className="glass-card hover-lift bg-primary/90 hover:bg-primary text-primary-foreground"
             >
               <Plus className="w-4 h-4 mr-2" />
               Create Your First Trip

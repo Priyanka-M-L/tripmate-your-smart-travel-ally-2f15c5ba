@@ -8,13 +8,13 @@ All colors MUST be HSL.
 
 @layer base {
   :root {
-    --background: 210 17% 98%;
+    --background: 210 20% 98%;
     --foreground: 200 25% 15%;
 
-    --card: 0 0% 100%;
+    --card: 0 0% 100% / 0.6;
     --card-foreground: 200 25% 15%;
 
-    --popover: 0 0% 100%;
+    --popover: 0 0% 100% / 0.95;
     --popover-foreground: 200 25% 15%;
 
     --primary: 185 62% 42%;
@@ -32,11 +32,11 @@ All colors MUST be HSL.
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 210 20% 88%;
-    --input: 210 20% 88%;
+    --border: 210 20% 88% / 0.3;
+    --input: 210 20% 88% / 0.5;
     --ring: 185 62% 42%;
 
-    --radius: 0.75rem;
+    --radius: 1rem;
     
     /* Travel-themed colors */
     --ocean: 200 75% 55%;
@@ -44,59 +44,125 @@ All colors MUST be HSL.
     --sand: 40 50% 90%;
     --forest: 145 45% 40%;
     
-    /* Profile page colors */
-    --profile-bg-start: 202 44% 11%;
-    --profile-bg-mid: 193 35% 19%;
-    --profile-bg-end: 198 37% 28%;
-    --profile-turquoise: 167 100% 39%;
-    --profile-coral: 0 100% 71%;
-    --profile-text: 0 0% 18%;
+    /* Glassmorphism */
+    --glass-background: 255 255 255 / 0.1;
+    --glass-border: 255 255 255 / 0.2;
+    --glass-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15);
     
-    /* Gradients */
-    --gradient-hero: linear-gradient(135deg, hsl(210 20% 97%), hsl(185 62% 95%));
-    --gradient-card: linear-gradient(to bottom, hsl(0 0% 100%), hsl(210 20% 97%));
+    /* Enhanced Gradients */
+    --gradient-hero: linear-gradient(135deg, hsl(210 20% 97%), hsl(185 62% 95%), hsl(200 75% 97%));
+    --gradient-card: linear-gradient(145deg, hsl(0 0% 100% / 0.8), hsl(210 20% 97% / 0.6));
     --gradient-overlay: linear-gradient(to top, hsl(185 62% 42% / 0.9), transparent);
     --gradient-profile: linear-gradient(135deg, hsl(210 20% 98%), hsl(185 62% 96%), hsl(200 75% 97%));
+    --gradient-mesh: 
+      radial-gradient(at 0% 0%, hsl(185 62% 95%) 0px, transparent 50%),
+      radial-gradient(at 100% 100%, hsl(200 75% 97%) 0px, transparent 50%),
+      radial-gradient(at 100% 0%, hsl(16 89% 95%) 0px, transparent 50%);
     
-    /* Shadows */
+    /* Premium Shadows */
     --shadow-soft: 0 4px 20px hsl(185 62% 42% / 0.1);
-    --shadow-card: 0 2px 8px hsl(185 62% 42% / 0.08);
-    --shadow-hover: 0 8px 30px hsl(185 62% 42% / 0.15);
-    --shadow-elegant: 0 8px 32px rgba(0, 0, 0, 0.12);
+    --shadow-card: 0 2px 16px hsl(185 62% 42% / 0.08);
+    --shadow-hover: 0 12px 40px hsl(185 62% 42% / 0.2);
+    --shadow-elegant: 0 8px 32px rgba(0, 0, 0, 0.08);
+    --shadow-glass: 0 8px 32px 0 rgba(31, 38, 135, 0.15);
     
     /* Animations */
     --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     --transition-spring: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+    --transition-bounce: all 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
   }
 
   .dark {
     --background: 200 25% 8%;
     --foreground: 210 20% 95%;
 
-    --card: 200 25% 10%;
+    --card: 200 25% 12% / 0.6;
     --card-foreground: 210 20% 95%;
 
-    --popover: 200 25% 10%;
+    --popover: 200 25% 12% / 0.95;
     --popover-foreground: 210 20% 95%;
 
-    --primary: 185 62% 50%;
+    --primary: 185 62% 55%;
     --primary-foreground: 0 0% 100%;
     
-    --secondary: 16 89% 60%;
+    --secondary: 16 89% 65%;
     --secondary-foreground: 0 0% 100%;
 
     --muted: 200 25% 15%;
     --muted-foreground: 210 15% 65%;
 
-    --accent: 185 62% 20%;
+    --accent: 185 62% 25%;
     --accent-foreground: 185 62% 90%;
 
-    --destructive: 0 62.8% 50.6%;
+    --destructive: 0 62.8% 55%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 200 20% 20%;
-    --input: 200 20% 20%;
-    --ring: 185 62% 50%;
+    --border: 200 20% 25% / 0.3;
+    --input: 200 20% 25% / 0.5;
+    --ring: 185 62% 55%;
+    
+    /* Dark Glassmorphism */
+    --glass-background: 0 0 0 / 0.2;
+    --glass-border: 255 255 255 / 0.1;
+    --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+    
+    /* Dark Gradients */
+    --gradient-hero: linear-gradient(135deg, hsl(200 25% 10%), hsl(185 62% 15%), hsl(200 75% 12%));
+    --gradient-card: linear-gradient(145deg, hsl(200 25% 12% / 0.8), hsl(200 25% 10% / 0.6));
+    --gradient-mesh: 
+      radial-gradient(at 0% 0%, hsl(185 62% 15%) 0px, transparent 50%),
+      radial-gradient(at 100% 100%, hsl(200 75% 12%) 0px, transparent 50%),
+      radial-gradient(at 100% 0%, hsl(16 89% 20%) 0px, transparent 50%);
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    background-image: var(--gradient-mesh);
+    background-attachment: fixed;
+  }
+  
+  /* Glassmorphism utility classes */
+  .glass {
+    background: rgba(var(--glass-background));
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(var(--glass-border));
+    box-shadow: var(--glass-shadow);
+  }
+  
+  .glass-card {
+    @apply glass rounded-xl;
+  }
+  
+  /* Smooth scroll */
+  html {
+    scroll-behavior: smooth;
+  }
+  
+  /* Premium animations */
+  @keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-20px); }
+  }
+  
+  .animate-float {
+    animation: float 3s ease-in-out infinite;
+  }
+  
+  /* Enhanced hover effects */
+  .hover-lift {
+    transition: var(--transition-smooth);
+  }
+  
+  .hover-lift:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-hover);
   }
 }
 

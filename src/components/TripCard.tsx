@@ -38,9 +38,11 @@ export const TripCard = ({ trip, onDelete }: TripCardProps) => {
   };
 
   return (
-    <Card className="p-6 bg-gradient-card border-border shadow-card hover:shadow-hover transition-all cursor-pointer">
-      <div onClick={() => navigate(`/trip/${trip.id}`)}>
-        <h3 className="text-xl font-bold text-foreground mb-3">{trip.title}</h3>
+    <Card className="glass-card hover-lift group cursor-pointer transition-all duration-300 overflow-hidden">
+      <div onClick={() => navigate(`/trip/${trip.id}`)} className="p-6">
+        <h3 className="text-xl font-bold mb-3 bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent group-hover:scale-105 transition-transform">
+          {trip.title}
+        </h3>
         <div className="space-y-2">
           <div className="flex items-center gap-2 text-muted-foreground">
             <MapPin className="w-4 h-4 text-primary" />
@@ -58,15 +60,15 @@ export const TripCard = ({ trip, onDelete }: TripCardProps) => {
           </div>
         </div>
       </div>
-      <div className="mt-4 pt-4 border-t border-border">
+      <div className="px-6 pb-6 pt-4 border-t border-border/50">
         <AlertDialog>
           <AlertDialogTrigger asChild>
-            <Button variant="outline" size="sm" className="w-full">
+            <Button variant="outline" size="sm" className="w-full glass-card hover-lift">
               <Trash2 className="w-4 h-4 mr-2" />
               Delete Trip
             </Button>
           </AlertDialogTrigger>
-          <AlertDialogContent>
+          <AlertDialogContent className="glass-card">
             <AlertDialogHeader>
               <AlertDialogTitle>Delete Trip</AlertDialogTitle>
               <AlertDialogDescription>

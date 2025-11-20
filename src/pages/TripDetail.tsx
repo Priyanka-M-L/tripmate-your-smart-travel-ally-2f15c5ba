@@ -11,6 +11,7 @@ import { CreateItineraryDialog } from "@/components/CreateItineraryDialog";
 import { BudgetTracker } from "@/components/BudgetTracker";
 import { Navigation } from "@/components/Navigation";
 import { SmartInsights } from "@/components/SmartInsights";
+import { TripPlannerEnhanced } from "@/components/TripPlannerEnhanced";
 import { ArrowLeft, Plus, Download, Sparkles, List, Calendar } from "lucide-react";
 import { toast } from "sonner";
 import html2pdf from "html2pdf.js";
@@ -191,7 +192,8 @@ const TripDetail = () => {
   const totalSpent = items.reduce((sum, item) => sum + (item.cost || 0), 0);
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen"
+>
       <Navigation />
       
       <div className="bg-gradient-hero py-8 shadow-soft">
@@ -243,10 +245,19 @@ const TripDetail = () => {
 
         <div id="trip-content" className="space-y-8">
           <div className="animate-fade-in">
-            <BudgetTracker budget={trip.budget ?? 0} spent={totalSpent} />
+            <TripPlannerEnhanced
+              destination={trip.destination}
+              startDate={trip.start_date}
+              endDate={trip.end_date}
+              budget={trip.budget}
+            />
           </div>
 
           <div className="animate-fade-in" style={{ animationDelay: '0.1s' }}>
+            <BudgetTracker budget={trip.budget ?? 0} spent={totalSpent} />
+          </div>
+
+          <div className="animate-fade-in" style={{ animationDelay: '0.2s' }}>
             <SmartInsights 
               destination={trip.destination}
               startDate={trip.start_date}
@@ -254,7 +265,7 @@ const TripDetail = () => {
             />
           </div>
 
-          <div className="animate-fade-in" style={{ animationDelay: '0.2s' }}>
+          <div className="animate-fade-in" style={{ animationDelay: '0.3s' }}>
             <div className="flex items-center justify-between mb-6">
               <h2 className="text-2xl font-bold text-foreground">
                 Itinerary
@@ -262,8 +273,8 @@ const TripDetail = () => {
             </div>
             
             {items.length === 0 ? (
-              <Card className="p-8 text-center bg-gradient-card border-border shadow-card">
-                <Sparkles className="w-12 h-12 mx-auto mb-4 text-primary animate-pulse" />
+              <Card className="p-8 text-center glass-card animate-scale-in">
+                <Sparkles className="w-12 h-12 mx-auto mb-4 text-primary animate-float" />
                 <h3 className="text-xl font-semibold text-foreground mb-2">
                   Your Itinerary is Empty
                 </h3>
@@ -273,7 +284,7 @@ const TripDetail = () => {
                 <div className="flex flex-col sm:flex-row gap-4 justify-center">
                   <Button 
                     onClick={() => setDialogOpen(true)}
-                    className="gap-2"
+                    className="gap-2 glass-card hover-lift bg-primary/90 text-primary-foreground"
                   >
                     <Plus className="w-4 h-4" />
                     Add Activity Manually
@@ -281,7 +292,7 @@ const TripDetail = () => {
                   <Button 
                     onClick={generateAIItinerary} 
                     disabled={generatingAI}
-                    className="bg-secondary hover:opacity-90 gap-2"
+                    className="bg-secondary/90 hover:bg-secondary gap-2 glass-card hover-lift text-secondary-foreground"
                   >
                     <Sparkles className="w-4 h-4" />
                     {generatingAI ? "Generating..." : "Generate AI Itinerary"}
@@ -290,7 +301,7 @@ const TripDetail = () => {
               </Card>
             ) : (
               <Tabs value={viewMode} onValueChange={handleViewModeChange}>
-                <TabsList className="mb-6">
+                <TabsList className="mb-6 glass-card">
                   <TabsTrigger value="list" className="flex items-center gap-2">
                     <List className="w-4 h-4" />
                     List View
@@ -307,7 +318,7 @@ const TripDetail = () => {
                       (day) => (
                         <Card 
                           key={day} 
-                          className="p-6 bg-gradient-card border-border shadow-card hover:shadow-hover transition-all"
+                          className="p-6 glass-card hover-lift"
                         >
                           <h3 className="text-xl font-bold text-foreground mb-4">
                             Day {day}

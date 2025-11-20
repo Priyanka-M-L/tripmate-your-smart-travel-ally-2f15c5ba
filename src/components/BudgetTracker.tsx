@@ -15,7 +15,7 @@ export const BudgetTracker = ({ budget, spent }: BudgetTrackerProps) => {
   const isOverBudget = totalSpent > totalBudget;
 
   return (
-    <Card className="p-6 bg-gradient-card border-border">
+    <Card className="p-6 glass-card hover-lift">
       <div className="flex items-center gap-2 mb-4">
         <DollarSign className="w-5 h-5 text-primary" />
         <h3 className="text-lg font-semibold text-foreground">Budget Tracker</h3>

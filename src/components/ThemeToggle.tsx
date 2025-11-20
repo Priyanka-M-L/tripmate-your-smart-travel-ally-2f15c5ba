@@ -17,9 +17,9 @@ export const ThemeToggle = () => {
         variant="outline"
         size="icon"
         disabled
-        className="bg-background/50 backdrop-blur-sm border-border"
+        className="glass-card hover-lift"
       >
-        <Sun className="h-5 w-5 text-primary opacity-50" />
+        <Sun className="h-5 w-5 text-primary opacity-50 transition-transform" />
         <span className="sr-only">Toggle theme</span>
       </Button>
     );
@@ -36,13 +36,24 @@ const ThemeToggleButton = () => {
       variant="outline"
       size="icon"
       onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-      className="bg-background/50 backdrop-blur-sm border-border hover:bg-accent transition-all"
+      className="glass-card hover-lift overflow-hidden relative"
     >
-      {theme === "dark" ? (
-        <Sun className="h-5 w-5 text-primary" />
-      ) : (
-        <Moon className="h-5 w-5 text-primary" />
-      )}
+      <div className="relative">
+        <Sun 
+          className={`h-5 w-5 text-primary absolute transition-all duration-500 ${
+            theme === "dark" 
+              ? "rotate-0 scale-100 opacity-100" 
+              : "rotate-90 scale-0 opacity-0"
+          }`} 
+        />
+        <Moon 
+          className={`h-5 w-5 text-primary transition-all duration-500 ${
+            theme === "light" 
+              ? "rotate-0 scale-100 opacity-100" 
+              : "-rotate-90 scale-0 opacity-0"
+          }`} 
+        />
+      </div>
       <span className="sr-only">Toggle theme</span>
     </Button>
   );
