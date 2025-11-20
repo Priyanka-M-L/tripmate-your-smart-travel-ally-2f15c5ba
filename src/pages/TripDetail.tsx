@@ -10,10 +10,10 @@ import { TripTimeline } from "@/components/TripTimeline";
 import { CreateItineraryDialog } from "@/components/CreateItineraryDialog";
 import { BudgetTracker } from "@/components/BudgetTracker";
 import { Navigation } from "@/components/Navigation";
+import { SmartInsights } from "@/components/SmartInsights";
 import { ArrowLeft, Plus, Download, Sparkles, List, Calendar } from "lucide-react";
 import { toast } from "sonner";
 import html2pdf from "html2pdf.js";
-// ... keep existing code (types and component logic below)
 
 
 interface Trip {
@@ -246,6 +246,13 @@ const TripDetail = () => {
             <BudgetTracker budget={trip.budget ?? 0} spent={totalSpent} />
           </div>
 
+          <div className="animate-fade-in" style={{ animationDelay: '0.1s' }}>
+            <SmartInsights 
+              destination={trip.destination}
+              startDate={trip.start_date}
+              interests={trip.interests}
+            />
+          </div>
 
           <div className="animate-fade-in" style={{ animationDelay: '0.2s' }}>
             <div className="flex items-center justify-between mb-6">
