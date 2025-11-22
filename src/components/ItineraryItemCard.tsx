@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { Clock, MapPin, DollarSign, Trash2 } from "lucide-react";
+import { Clock, MapPin, DollarSign, Trash2, Leaf, Bus } from "lucide-react";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -21,6 +21,9 @@ interface ItineraryItemCardProps {
     location: string;
     description: string;
     cost: number;
+    carbon_footprint?: number;
+    transport_mode?: string;
+    transport_distance?: number;
   };
   onDelete: (id: string) => void;
 }
@@ -58,6 +61,21 @@ export const ItineraryItemCard = ({
               ${item.cost.toFixed(2)}
             </div>
           )}
+          <div className="flex items-center gap-4 mt-2">
+            {item.carbon_footprint !== undefined && item.carbon_footprint > 0 && (
+              <div className="flex items-center gap-1 text-xs text-muted-foreground">
+                <Leaf className="w-3 h-3 text-green-500" />
+                {item.carbon_footprint.toFixed(2)} kg CO₂
+              </div>
+            )}
+            {item.transport_mode && (
+              <div className="flex items-center gap-1 text-xs text-muted-foreground">
+                <Bus className="w-3 h-3" />
+                {item.transport_mode}
+                {item.transport_distance ? ` (${item.transport_distance.toFixed(1)}km)` : ''}
+              </div>
+            )}
+          </div>
         </div>
         <AlertDialog>
           <AlertDialogTrigger asChild>
