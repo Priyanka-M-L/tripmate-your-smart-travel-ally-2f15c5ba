@@ -17,9 +17,21 @@ import { CarbonFootprintCard } from "@/components/CarbonFootprintCard";
 import { PackingChecklist } from "@/components/PackingChecklist";
 import { SafetyTips } from "@/components/SafetyTips";
 import { LocalTransport } from "@/components/LocalTransport";
+import { FoodAllergyPlanner } from "@/components/FoodAllergyPlanner";
+import { SleepJetlagPlanner } from "@/components/SleepJetlagPlanner";
+import { WellnessIntegration } from "@/components/WellnessIntegration";
+import { OfflineIndicator } from "@/components/OfflineIndicator";
 import { ArrowLeft, Plus, Download, Sparkles, List, Calendar } from "lucide-react";
 import { toast } from "sonner";
 import html2pdf from "html2pdf.js";
+import { 
+  cacheTrip, 
+  cacheItineraryItems, 
+  getCachedTrip, 
+  getCachedItineraryItems,
+  isOnline,
+  addPendingChange
+} from "@/utils/offlineStorage";
 
 
 interface Trip {
@@ -66,24 +78,41 @@ const TripDetail = () => {
 
   const fetchTripData = async () => {
     try {
-      const { data: tripData, error: tripError } = await supabase
-        .from("trips")
-        .select("*")
-        .eq("id", id)
-        .single();
+      // Try online first
+      if (isOnline()) {
+        const { data: tripData, error: tripError } = await supabase
+          .from("trips")
+          .select("*")
+          .eq("id", id)
+          .single();
 
-      if (tripError) throw tripError;
-      setTrip(tripData);
+        if (tripError) throw tripError;
+        setTrip(tripData);
+        await cacheTrip(tripData);
 
-      const { data: itemsData, error: itemsError } = await supabase
-        .from("itinerary_items")
-        .select("*")
-        .eq("trip_id", id)
-        .order("day_number", { ascending: true })
-        .order("time", { ascending: true });
+        const { data: itemsData, error: itemsError } = await supabase
+          .from("itinerary_items")
+          .select("*")
+          .eq("trip_id", id)
+          .order("day_number", { ascending: true })
+          .order("time", { ascending: true });
 
-      if (itemsError) throw itemsError;
-      setItems(itemsData || []);
+        if (itemsError) throw itemsError;
+        setItems(itemsData || []);
+        await cacheItineraryItems(itemsData || [], id!);
+      } else {
+        // Offline mode - use cached data
+        const cachedTrip = await getCachedTrip(id!);
+        const cachedItems = await getCachedItineraryItems(id!);
+        
+        if (cachedTrip) {
+          setTrip(cachedTrip);
+          setItems(cachedItems);
+          toast.info("Viewing cached data (offline mode)");
+        } else {
+          throw new Error("No cached data available");
+        }
+      }
     } catch (error: any) {
       toast.error("Failed to load trip");
       navigate("/dashboard");
@@ -94,12 +123,18 @@ const TripDetail = () => {
 
   const handleDeleteItem = async (itemId: string) => {
     try {
-      const { error } = await supabase
-        .from("itinerary_items")
-        .delete()
-        .eq("id", itemId);
-      if (error) throw error;
-      toast.success("Item deleted");
+      if (isOnline()) {
+        const { error } = await supabase
+          .from("itinerary_items")
+          .delete()
+          .eq("id", itemId);
+        if (error) throw error;
+        toast.success("Item deleted");
+      } else {
+        // Offline mode - queue for sync
+        await addPendingChange('delete', 'itinerary_items', { id: itemId });
+        toast.info("Delete queued for sync");
+      }
       fetchTripData();
     } catch (error: any) {
       toast.error("Failed to delete item");
@@ -206,9 +241,9 @@ const TripDetail = () => {
   const totalCarbon = items.reduce((sum, item) => sum + (item.carbon_footprint || 0), 0);
 
   return (
-    <div className="min-h-screen"
->
+    <div className="min-h-screen">
       <Navigation />
+      <OfflineIndicator />
       
       <div className="bg-gradient-hero py-8 shadow-soft">
         <div className="container mx-auto px-4">
@@ -279,6 +314,12 @@ const TripDetail = () => {
             />
           </div>
 
+          {items.length > 0 && (
+            <div className="animate-fade-in" style={{ animationDelay: '0.15s' }}>
+              <WellnessIntegration destination={trip.destination} items={items} />
+            </div>
+          )}
+
           <div className="animate-fade-in" style={{ animationDelay: '0.2s' }}>
             <SmartInsights 
               destination={trip.destination}
@@ -288,7 +329,7 @@ const TripDetail = () => {
           </div>
 
           {items.length > 0 && (
-          <div className="animate-fade-in" style={{ animationDelay: '0.5s' }}>
+            <div className="animate-fade-in" style={{ animationDelay: '0.3s' }}>
               <TripMap items={items} destination={trip.destination} />
             </div>
           )}
@@ -296,6 +337,15 @@ const TripDetail = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 animate-fade-in" style={{ animationDelay: '0.4s' }}>
             <SafetyTips destination={trip.destination} />
             <LocalTransport destination={trip.destination} />
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 animate-fade-in" style={{ animationDelay: '0.45s' }}>
+            <FoodAllergyPlanner destination={trip.destination} />
+            <SleepJetlagPlanner 
+              destination={trip.destination} 
+              startDate={trip.start_date}
+              duration={tripDays}
+            />
           </div>
 
           <div className="animate-fade-in" style={{ animationDelay: '0.3s' }}>
