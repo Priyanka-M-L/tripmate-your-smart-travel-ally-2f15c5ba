@@ -16,6 +16,7 @@ export type Database = {
     Tables: {
       itinerary_items: {
         Row: {
+          carbon_footprint: number | null
           cost: number | null
           created_at: string
           day_number: number
@@ -24,11 +25,14 @@ export type Database = {
           location: string | null
           time: string | null
           title: string
+          transport_distance: number | null
+          transport_mode: string | null
           trip_id: string
           type: string | null
           updated_at: string
         }
         Insert: {
+          carbon_footprint?: number | null
           cost?: number | null
           created_at?: string
           day_number: number
@@ -37,11 +41,14 @@ export type Database = {
           location?: string | null
           time?: string | null
           title: string
+          transport_distance?: number | null
+          transport_mode?: string | null
           trip_id: string
           type?: string | null
           updated_at?: string
         }
         Update: {
+          carbon_footprint?: number | null
           cost?: number | null
           created_at?: string
           day_number?: number
@@ -50,6 +57,8 @@ export type Database = {
           location?: string | null
           time?: string | null
           title?: string
+          transport_distance?: number | null
+          transport_mode?: string | null
           trip_id?: string
           type?: string | null
           updated_at?: string
