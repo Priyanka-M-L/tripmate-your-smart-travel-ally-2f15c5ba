@@ -64,12 +64,26 @@ export const WeatherSmartPlanner = ({
 
       const { latitude: lat, longitude: lon } = geocodeData.results[0];
 
+      // Calculate safe date range (Open-Meteo API limits to 16 days forecast)
+      const today = new Date();
+      const maxForecastDate = new Date();
+      maxForecastDate.setDate(today.getDate() + 14); // 14 days forecast limit
+
+      const safeStartDate = new Date(startDate) < today ? today.toISOString().split('T')[0] : startDate;
+      const safeEndDate = new Date(endDate) > maxForecastDate 
+        ? maxForecastDate.toISOString().split('T')[0] 
+        : endDate;
+
       // Fetch detailed weather data
       const weatherResponse = await fetch(
-        `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&daily=temperature_2m_max,temperature_2m_min,precipitation_probability_max,weather_code,apparent_temperature_max&hourly=relative_humidity_2m&start_date=${startDate}&end_date=${endDate}&timezone=auto`
+        `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&daily=temperature_2m_max,temperature_2m_min,precipitation_probability_max,weather_code,apparent_temperature_max&hourly=relative_humidity_2m&start_date=${safeStartDate}&end_date=${safeEndDate}&timezone=auto`
       );
 
-      if (!weatherResponse.ok) throw new Error("Weather fetch failed");
+      if (!weatherResponse.ok) {
+        const errorText = await weatherResponse.text();
+        console.error("Weather API error:", errorText);
+        throw new Error("Weather fetch failed");
+      }
 
       const data = await weatherResponse.json();
       

@@ -57,13 +57,20 @@ export const WellnessAIAssistant = ({
   const fetchWellnessProfile = async () => {
     try {
       const { data: { user } } = await supabase.auth.getUser();
-      if (!user) return;
+      if (!user) {
+        setLoading(false);
+        return;
+      }
 
-      const { data } = await supabase
+      const { data, error } = await supabase
         .from('wellness_profiles')
         .select('*')
         .eq('user_id', user.id)
-        .single();
+        .maybeSingle();
+
+      if (error && error.code !== 'PGRST116') {
+        console.error("Error fetching wellness profile:", error);
+      }
 
       setProfile(data);
     } catch (error) {
@@ -74,10 +81,39 @@ export const WellnessAIAssistant = ({
   };
 
   const generateSuggestions = async () => {
-    if (!profile) return;
-
     setGenerating(true);
     const newSuggestions: WellnessSuggestion[] = [];
+
+    // If no profile, provide general wellness suggestions
+    if (!profile) {
+      newSuggestions.push({
+        category: "General Wellness",
+        title: "Stay Hydrated",
+        description: "Drink water regularly throughout your trip, especially when walking or in hot weather.",
+        priority: "medium",
+        icon: "💧",
+      });
+
+      newSuggestions.push({
+        category: "General Wellness",
+        title: "Take Regular Breaks",
+        description: "Schedule 15-20 minute rest breaks every 2-3 hours to avoid fatigue and maintain energy.",
+        priority: "medium",
+        icon: "☕",
+      });
+
+      newSuggestions.push({
+        category: "Travel Comfort",
+        title: "Pack Essentials",
+        description: "Bring comfortable shoes, sunscreen, snacks, and any personal medications you might need.",
+        priority: "medium",
+        icon: "🎒",
+      });
+
+      setSuggestions(newSuggestions);
+      setGenerating(false);
+      return;
+    }
 
     // Anxiety-based suggestions
     if (profile.anxiety === 'high' || profile.mental_wellness === 'poor') {
@@ -217,15 +253,37 @@ export const WellnessAIAssistant = ({
     );
   }
 
-  if (!profile) {
+  if (!profile && suggestions.length === 0) {
     return (
       <Card className="p-6 glass-card border-2 border-border/50">
-        <div className="text-center py-8">
-          <Heart className="w-12 h-12 mx-auto mb-4 text-muted-foreground" />
-          <p className="text-sm text-muted-foreground mb-4">
-            Complete your wellness profile to get personalized recommendations
+        <div className="flex items-center justify-between mb-4">
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 rounded-full bg-gradient-primary flex items-center justify-center">
+              <Brain className="w-5 h-5 text-white" />
+            </div>
+            <div>
+              <h3 className="text-lg font-bold text-foreground">Wellness AI Assistant</h3>
+              <p className="text-xs text-muted-foreground">General travel wellness tips</p>
+            </div>
+          </div>
+          <Button 
+            onClick={generateSuggestions} 
+            variant="ghost" 
+            size="sm"
+            disabled={generating}
+          >
+            {generating ? (
+              <Loader2 className="w-4 h-4 animate-spin" />
+            ) : (
+              <Sparkles className="w-4 h-4" />
+            )}
+          </Button>
+        </div>
+        <div className="text-center py-4">
+          <p className="text-sm text-muted-foreground mb-3">
+            Get personalized wellness recommendations
           </p>
-          <Button onClick={() => window.location.href = '/wellness'} variant="outline">
+          <Button onClick={() => window.location.href = '/wellness'} variant="outline" size="sm">
             Set Up Wellness Profile
           </Button>
         </div>
