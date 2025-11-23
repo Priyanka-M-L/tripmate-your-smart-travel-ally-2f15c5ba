@@ -1,16 +1,1 @@
-project_id = "wwpehcrirrfzrjrelwsz"
-
-[functions.generate-itinerary]
-verify_jwt = false
-
-[functions.speech-to-text]
-verify_jwt = false
-
-[functions.text-to-speech]
-verify_jwt = false
-
-[functions.wellness-chat]
-verify_jwt = false
-
-[functions.trip-insights]
-verify_jwt = false
+project_id = "czzqnkgfdbesfvaquqzw"

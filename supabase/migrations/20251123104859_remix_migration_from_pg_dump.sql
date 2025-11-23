@@ -1,3 +1,9 @@
+CREATE EXTENSION IF NOT EXISTS "pg_graphql";
+CREATE EXTENSION IF NOT EXISTS "pg_stat_statements";
+CREATE EXTENSION IF NOT EXISTS "pgcrypto";
+CREATE EXTENSION IF NOT EXISTS "plpgsql";
+CREATE EXTENSION IF NOT EXISTS "supabase_vault";
+CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 --
 -- PostgreSQL database dump
 --
@@ -37,8 +43,9 @@ BEGIN
   VALUES (
     NEW.id,
     NEW.email,
-    NEW.raw_user_meta_data->>'full_name'
-  );
+    COALESCE(NEW.raw_user_meta_data->>'full_name', '')
+  )
+  ON CONFLICT (id) DO NOTHING;
   RETURN NEW;
 END;
 $$;
@@ -76,7 +83,10 @@ CREATE TABLE public.itinerary_items (
     description text,
     cost numeric(10,2) DEFAULT 0,
     created_at timestamp with time zone DEFAULT now() NOT NULL,
-    updated_at timestamp with time zone DEFAULT now() NOT NULL
+    updated_at timestamp with time zone DEFAULT now() NOT NULL,
+    carbon_footprint numeric(10,2) DEFAULT 0,
+    transport_mode text,
+    transport_distance numeric(10,2)
 );
 
 
@@ -238,7 +248,7 @@ ALTER TABLE ONLY public.profiles
 --
 
 ALTER TABLE ONLY public.trips
-    ADD CONSTRAINT trips_user_id_fkey FOREIGN KEY (user_id) REFERENCES public.profiles(id) ON DELETE CASCADE;
+    ADD CONSTRAINT trips_user_id_fkey FOREIGN KEY (user_id) REFERENCES auth.users(id) ON DELETE CASCADE;
 
 
 --
