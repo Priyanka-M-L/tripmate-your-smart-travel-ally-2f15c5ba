@@ -13,6 +13,7 @@ import { Navigation } from "@/components/Navigation";
 import { SmartInsights } from "@/components/SmartInsights";
 import { TripPlannerEnhanced } from "@/components/TripPlannerEnhanced";
 import { TripMap } from "@/components/TripMap";
+import { InteractiveMapEngine } from "@/components/InteractiveMapEngine";
 import { CarbonFootprintCard } from "@/components/CarbonFootprintCard";
 import { PackingChecklist } from "@/components/PackingChecklist";
 import { SafetyTips } from "@/components/SafetyTips";
@@ -22,6 +23,8 @@ import { SleepJetlagPlanner } from "@/components/SleepJetlagPlanner";
 import { WellnessIntegration } from "@/components/WellnessIntegration";
 import { OfflineIndicator } from "@/components/OfflineIndicator";
 import { BudgetAllocator } from "@/components/BudgetAllocator";
+import { WeatherSmartPlanner } from "@/components/WeatherSmartPlanner";
+import { WellnessAIAssistant } from "@/components/WellnessAIAssistant";
 import { ArrowLeft, Plus, Download, Sparkles, List, Calendar, MapPin, DollarSign } from "lucide-react";
 import { toast } from "sonner";
 import html2pdf from "html2pdf.js";
@@ -296,15 +299,17 @@ const TripDetail = () => {
         </div>
 
         <div id="trip-content" className="space-y-8">
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 animate-fade-in">
-            <div className="lg:col-span-3">
-              <TripPlannerEnhanced
-                destination={trip.destination}
-                startDate={trip.start_date}
-                endDate={trip.end_date}
-                budget={trip.budget}
-              />
-            </div>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 animate-fade-in">
+            <WeatherSmartPlanner
+              destination={trip.destination}
+              startDate={trip.start_date}
+              endDate={trip.end_date}
+            />
+            <WellnessAIAssistant
+              destination={trip.destination}
+              tripDuration={tripDays}
+              items={items}
+            />
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 animate-fade-in" style={{ animationDelay: '0.1s' }}>
@@ -337,7 +342,7 @@ const TripDetail = () => {
 
           {items.length > 0 && (
             <div className="animate-fade-in" style={{ animationDelay: '0.3s' }}>
-              <TripMap items={items} destination={trip.destination} />
+              <InteractiveMapEngine items={items} destination={trip.destination} />
             </div>
           )}
 

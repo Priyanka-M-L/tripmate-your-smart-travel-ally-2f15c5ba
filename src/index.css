@@ -79,43 +79,46 @@ All colors MUST be HSL.
     --background: 200 25% 8%;
     --foreground: 210 20% 95%;
 
-    --card: 200 25% 12% / 0.6;
+    --card: 200 25% 12%;
     --card-foreground: 210 20% 95%;
 
-    --popover: 200 25% 12% / 0.95;
+    --popover: 200 25% 12%;
     --popover-foreground: 210 20% 95%;
 
-    --primary: 185 62% 55%;
+    --primary: 207 90% 61%;
     --primary-foreground: 0 0% 100%;
     
-    --secondary: 16 89% 65%;
+    --secondary: 14 100% 70%;
     --secondary-foreground: 0 0% 100%;
 
     --muted: 200 25% 15%;
     --muted-foreground: 210 15% 65%;
 
-    --accent: 185 62% 25%;
-    --accent-foreground: 185 62% 90%;
+    --accent: 207 80% 20%;
+    --accent-foreground: 207 80% 95%;
 
-    --destructive: 0 62.8% 55%;
+    --destructive: 0 62% 55%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 200 20% 25% / 0.3;
-    --input: 200 20% 25% / 0.5;
-    --ring: 185 62% 55%;
+    --border: 200 20% 25%;
+    --input: 200 20% 25%;
+    --ring: 207 90% 61%;
     
-    /* Dark Glassmorphism */
-    --glass-background: 0 0 0 / 0.2;
-    --glass-border: 255 255 255 / 0.1;
-    --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+    /* Dark theme colors */
+    --ocean: 207 90% 61%;
+    --coral: 14 100% 70%;
+    --sand: 40 55% 30%;
+    --forest: 145 50% 50%;
+    --sky: 200 85% 35%;
+    --success: 145 65% 50%;
+    --warning: 38 92% 55%;
+    --info: 207 90% 65%;
     
     /* Dark Gradients */
-    --gradient-hero: linear-gradient(135deg, hsl(200 25% 10%), hsl(185 62% 15%), hsl(200 75% 12%));
-    --gradient-card: linear-gradient(145deg, hsl(200 25% 12% / 0.8), hsl(200 25% 10% / 0.6));
-    --gradient-mesh: 
-      radial-gradient(at 0% 0%, hsl(185 62% 15%) 0px, transparent 50%),
-      radial-gradient(at 100% 100%, hsl(200 75% 12%) 0px, transparent 50%),
-      radial-gradient(at 100% 0%, hsl(16 89% 20%) 0px, transparent 50%);
+    --gradient-hero: linear-gradient(135deg, hsl(200 30% 12%) 0%, hsl(207 35% 15%) 50%, hsl(200 30% 12%) 100%);
+    --gradient-card: linear-gradient(135deg, hsl(200 25% 12%) 0%, hsl(200 25% 14%) 100%);
+    --gradient-primary: linear-gradient(135deg, hsl(207 90% 61%) 0%, hsl(200 85% 65%) 100%);
+    --gradient-secondary: linear-gradient(135deg, hsl(14 100% 70%) 0%, hsl(25 95% 65%) 100%);
   }
 }
 
@@ -128,19 +131,7 @@ All colors MUST be HSL.
     @apply bg-background text-foreground;
     background-image: var(--gradient-mesh);
     background-attachment: fixed;
-  }
-  
-  /* Glassmorphism utility classes */
-  .glass {
-    background: rgba(var(--glass-background));
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    border: 1px solid rgba(var(--glass-border));
-    box-shadow: var(--glass-shadow);
-  }
-  
-  .glass-card {
-    @apply glass rounded-xl;
+    min-height: 100vh;
   }
   
   /* Smooth scroll */
@@ -166,6 +157,34 @@ All colors MUST be HSL.
   .hover-lift:hover {
     transform: translateY(-4px);
     box-shadow: var(--shadow-hover);
+  }
+
+  /* Custom scrollbar */
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
+  ::-webkit-scrollbar-track {
+    @apply bg-muted/30;
+    border-radius: 8px;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    @apply bg-primary/30;
+    border-radius: 8px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-primary/50;
+  }
+
+  /* Glass effect */
+  .glass-card {
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    background: hsl(var(--card) / 0.8);
+    border: 1px solid hsl(var(--border) / 0.5);
   }
 }
 
