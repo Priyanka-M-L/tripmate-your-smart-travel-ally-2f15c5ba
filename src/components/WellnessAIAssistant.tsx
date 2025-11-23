@@ -49,9 +49,8 @@ export const WellnessAIAssistant = ({
   }, []);
 
   useEffect(() => {
-    if (profile) {
-      generateSuggestions();
-    }
+    // Always generate suggestions, even without a profile
+    generateSuggestions();
   }, [profile, items]);
 
   const fetchWellnessProfile = async () => {
@@ -253,43 +252,13 @@ export const WellnessAIAssistant = ({
     );
   }
 
-  if (!profile && suggestions.length === 0) {
-    return (
-      <Card className="p-6 glass-card border-2 border-border/50">
-        <div className="flex items-center justify-between mb-4">
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-full bg-gradient-primary flex items-center justify-center">
-              <Brain className="w-5 h-5 text-white" />
-            </div>
-            <div>
-              <h3 className="text-lg font-bold text-foreground">Wellness AI Assistant</h3>
-              <p className="text-xs text-muted-foreground">General travel wellness tips</p>
-            </div>
-          </div>
-          <Button 
-            onClick={generateSuggestions} 
-            variant="ghost" 
-            size="sm"
-            disabled={generating}
-          >
-            {generating ? (
-              <Loader2 className="w-4 h-4 animate-spin" />
-            ) : (
-              <Sparkles className="w-4 h-4" />
-            )}
-          </Button>
-        </div>
-        <div className="text-center py-4">
-          <p className="text-sm text-muted-foreground mb-3">
-            Get personalized wellness recommendations
-          </p>
-          <Button onClick={() => window.location.href = '/wellness'} variant="outline" size="sm">
-            Set Up Wellness Profile
-          </Button>
-        </div>
-      </Card>
-    );
-  }
+  // Always show suggestions - never blank
+  const hasProfile = profile && (
+    profile.anxiety !== 'none' || 
+    profile.motion_sickness !== 'none' || 
+    profile.claustrophobia !== 'none' ||
+    profile.heart_sensitivity !== 'none'
+  );
 
   return (
     <Card className="p-6 glass-card border-2 border-primary/20 hover-lift">
@@ -300,7 +269,9 @@ export const WellnessAIAssistant = ({
           </div>
           <div>
             <h3 className="text-lg font-bold text-foreground">Wellness AI Assistant</h3>
-            <p className="text-xs text-muted-foreground">Personalized trip optimizations</p>
+            <p className="text-xs text-muted-foreground">
+              {hasProfile ? 'Personalized trip optimizations' : 'General travel wellness tips'}
+            </p>
           </div>
         </div>
         <Button 
@@ -317,38 +288,70 @@ export const WellnessAIAssistant = ({
         </Button>
       </div>
 
-      {/* Wellness Profile Summary */}
-      <div className="mb-6 p-4 rounded-xl bg-accent/20 border border-accent">
-        <p className="text-xs font-medium text-muted-foreground mb-2">Your Wellness Profile</p>
-        <div className="flex flex-wrap gap-2">
-          {profile.anxiety === 'high' && (
-            <Badge variant="outline" className="text-xs">
-              <AlertCircle className="w-3 h-3 mr-1" /> Anxiety Management
-            </Badge>
-          )}
-          {profile.motion_sickness === 'high' && (
-            <Badge variant="outline" className="text-xs">
-              <Wind className="w-3 h-3 mr-1" /> Motion Sensitive
-            </Badge>
-          )}
-          {profile.claustrophobia === 'high' && (
-            <Badge variant="outline" className="text-xs">
-              <Users className="w-3 h-3 mr-1" /> Space Awareness
-            </Badge>
-          )}
-          {profile.heart_sensitivity === 'high' && (
-            <Badge variant="outline" className="text-xs">
-              <Heart className="w-3 h-3 mr-1" /> Heart Care
-            </Badge>
-          )}
+      {/* Wellness Profile Summary (only if profile exists) */}
+      {hasProfile && (
+        <div className="mb-6 p-4 rounded-xl bg-accent/20 border border-accent">
+          <div className="flex items-center justify-between mb-2">
+            <p className="text-xs font-medium text-muted-foreground">Your Wellness Profile</p>
+            <Button 
+              onClick={() => window.location.href = '/wellness'} 
+              variant="ghost" 
+              size="sm"
+              className="h-6 text-xs"
+            >
+              Edit Profile
+            </Button>
+          </div>
+          <div className="flex flex-wrap gap-2">
+            {profile.anxiety === 'high' && (
+              <Badge variant="outline" className="text-xs">
+                <AlertCircle className="w-3 h-3 mr-1" /> Anxiety Management
+              </Badge>
+            )}
+            {profile.motion_sickness === 'high' && (
+              <Badge variant="outline" className="text-xs">
+                <Wind className="w-3 h-3 mr-1" /> Motion Sensitive
+              </Badge>
+            )}
+            {profile.claustrophobia === 'high' && (
+              <Badge variant="outline" className="text-xs">
+                <Users className="w-3 h-3 mr-1" /> Space Awareness
+              </Badge>
+            )}
+            {profile.heart_sensitivity === 'high' && (
+              <Badge variant="outline" className="text-xs">
+                <Heart className="w-3 h-3 mr-1" /> Heart Care
+              </Badge>
+            )}
+          </div>
         </div>
-      </div>
+      )}
+
+      {/* No profile prompt */}
+      {!hasProfile && suggestions.length === 0 && (
+        <div className="text-center py-6 mb-4 border border-dashed border-border rounded-xl">
+          <p className="text-sm text-muted-foreground mb-3">
+            Set up your wellness profile for personalized recommendations
+          </p>
+          <Button onClick={() => window.location.href = '/wellness'} variant="outline" size="sm">
+            Set Up Wellness Profile
+          </Button>
+        </div>
+      )}
 
       {/* AI Suggestions */}
       <div className="space-y-3">
-        {suggestions.length === 0 ? (
+        {suggestions.length === 0 && !generating ? (
           <div className="text-center py-4">
-            <p className="text-sm text-muted-foreground">Generating personalized suggestions...</p>
+            <Button onClick={generateSuggestions} variant="outline" size="sm">
+              <Sparkles className="w-4 h-4 mr-2" />
+              Generate Suggestions
+            </Button>
+          </div>
+        ) : generating ? (
+          <div className="text-center py-4">
+            <Loader2 className="w-5 h-5 animate-spin text-primary mx-auto" />
+            <p className="text-xs text-muted-foreground mt-2">Generating personalized suggestions...</p>
           </div>
         ) : (
           suggestions.map((suggestion, index) => (
