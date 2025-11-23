@@ -21,7 +21,8 @@ import { FoodAllergyPlanner } from "@/components/FoodAllergyPlanner";
 import { SleepJetlagPlanner } from "@/components/SleepJetlagPlanner";
 import { WellnessIntegration } from "@/components/WellnessIntegration";
 import { OfflineIndicator } from "@/components/OfflineIndicator";
-import { ArrowLeft, Plus, Download, Sparkles, List, Calendar } from "lucide-react";
+import { BudgetAllocator } from "@/components/BudgetAllocator";
+import { ArrowLeft, Plus, Download, Sparkles, List, Calendar, MapPin, DollarSign } from "lucide-react";
 import { toast } from "sonner";
 import html2pdf from "html2pdf.js";
 import { 
@@ -240,6 +241,8 @@ const TripDetail = () => {
   const totalSpent = items.reduce((sum, item) => sum + (item.cost || 0), 0);
   const totalCarbon = items.reduce((sum, item) => sum + (item.carbon_footprint || 0), 0);
 
+  const budgetPercentage = trip.budget > 0 ? (totalSpent / trip.budget) * 100 : 0;
+
   return (
     <div className="min-h-screen">
       <Navigation />
@@ -269,7 +272,7 @@ const TripDetail = () => {
         <div className="flex flex-wrap gap-4 mb-8 animate-fade-in">
           <Button 
             onClick={() => setDialogOpen(true)}
-            className="bg-primary hover:opacity-90 shadow-soft hover:scale-105 transition-all"
+            className="bg-gradient-primary hover:opacity-90 shadow-soft hover-lift border-0"
           >
             <Plus className="w-4 h-4 mr-2" />
             Add Item
@@ -277,7 +280,7 @@ const TripDetail = () => {
           <Button 
             onClick={generateAIItinerary} 
             disabled={generatingAI}
-            className="bg-secondary hover:opacity-90 shadow-soft hover:scale-105 transition-all"
+            className="bg-gradient-secondary hover:opacity-90 shadow-soft hover-lift border-0"
           >
             <Sparkles className="w-4 h-4 mr-2" />
             {generatingAI ? "Generating..." : "Generate AI Itinerary"}
@@ -285,7 +288,7 @@ const TripDetail = () => {
           <Button 
             onClick={exportToPDF} 
             variant="outline"
-            className="hover:scale-105 transition-all"
+            className="hover-lift border-2"
           >
             <Download className="w-4 h-4 mr-2" />
             Export PDF
@@ -312,6 +315,10 @@ const TripDetail = () => {
               duration={tripDays}
               weather={items.length > 0 ? "Check forecast above" : undefined}
             />
+          </div>
+
+          <div className="animate-fade-in" style={{ animationDelay: '0.15s' }}>
+            <BudgetAllocator totalBudget={trip.budget ?? 0} />
           </div>
 
           {items.length > 0 && (

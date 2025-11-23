@@ -80,10 +80,15 @@ export const WeatherCard = ({
   };
 
   return (
-    <Card className="p-6 bg-gradient-card border-border">
-      <div className="flex items-center gap-2 mb-4">
-        <Cloud className="w-5 h-5 text-primary" />
-        <h3 className="text-lg font-semibold text-foreground">Weather Forecast</h3>
+    <Card className="p-6 glass-card border-2 border-border/50 hover-lift">
+      <div className="flex items-center gap-3 mb-4">
+        <div className="w-10 h-10 rounded-full bg-gradient-primary flex items-center justify-center">
+          <Cloud className="w-5 h-5 text-white" />
+        </div>
+        <div>
+          <h3 className="text-lg font-bold text-foreground">Weather Forecast</h3>
+          <p className="text-xs text-muted-foreground">{destination}</p>
+        </div>
       </div>
 
       {loading ? (
@@ -91,26 +96,31 @@ export const WeatherCard = ({
           <Loader2 className="w-6 h-6 animate-spin text-primary" />
         </div>
       ) : error ? (
-        <p className="text-sm text-muted-foreground">
-          Weather data unavailable
-        </p>
+        <div className="text-center py-4">
+          <p className="text-sm text-muted-foreground">Weather data unavailable</p>
+        </div>
       ) : (
         <div className="space-y-2">
-          {weather.slice(0, 5).map((day) => (
+          {weather.slice(0, 5).map((day, index) => (
             <div
               key={day.date}
-              className="flex justify-between items-center py-2 border-b border-border last:border-0"
+              className="flex justify-between items-center p-3 rounded-lg hover:bg-accent/30 transition-colors"
             >
-              <span className="text-sm text-muted-foreground">
-                {new Date(day.date).toLocaleDateString("en-US", {
+              <span className="text-sm font-medium text-foreground">
+                {index === 0 ? "Today" : new Date(day.date).toLocaleDateString("en-US", {
                   weekday: "short",
                   month: "short",
                   day: "numeric",
                 })}
               </span>
-              <span className="font-semibold text-foreground">
-                {day.temperature}°C
-              </span>
+              <div className="flex items-center gap-3">
+                <span className="text-2xl">
+                  {day.temperature > 25 ? "☀️" : day.temperature > 15 ? "⛅" : "🌤️"}
+                </span>
+                <span className="text-lg font-bold text-primary">
+                  {day.temperature}°C
+                </span>
+              </div>
             </div>
           ))}
         </div>
