@@ -131,3 +131,35 @@ export const clearPendingChanges = async () => {
 export const isOnline = () => {
   return navigator.onLine;
 };
+
+// Weather caching
+export const cacheWeather = async (locationKey: string, weatherData: any) => {
+  const database = await initOfflineDB();
+  await database.put('trips', {
+    id: `weather_${locationKey}`,
+    data: weatherData,
+    lastSync: Date.now(),
+  });
+};
+
+export const getCachedWeather = async (locationKey: string) => {
+  const database = await initOfflineDB();
+  const cached = await database.get('trips', `weather_${locationKey}`);
+  return cached?.data;
+};
+
+// Map tiles caching (store as JSON metadata)
+export const cacheMapTiles = async (destination: string, tilesData: any) => {
+  const database = await initOfflineDB();
+  await database.put('trips', {
+    id: `map_tiles_${destination}`,
+    data: tilesData,
+    lastSync: Date.now(),
+  });
+};
+
+export const getCachedMapTiles = async (destination: string) => {
+  const database = await initOfflineDB();
+  const cached = await database.get('trips', `map_tiles_${destination}`);
+  return cached?.data;
+};

@@ -1,64 +1,71 @@
 import { useEffect, useState } from "react";
-import { Card } from "@/components/ui/card";
-import { WifiOff, Wifi, CloudUpload } from "lucide-react";
-import { getPendingChanges } from "@/utils/offlineStorage";
+import { WifiOff, Wifi, RefreshCw } from "lucide-react";
+import { Alert, AlertDescription } from "@/components/ui/alert";
+import { Button } from "@/components/ui/button";
+import { syncManager } from "@/utils/syncManager";
+import { toast } from "sonner";
 
 export const OfflineIndicator = () => {
   const [isOnline, setIsOnline] = useState(navigator.onLine);
-  const [pendingCount, setPendingCount] = useState(0);
+  const [syncing, setSyncing] = useState(false);
 
   useEffect(() => {
-    const handleOnline = () => setIsOnline(true);
-    const handleOffline = () => setIsOnline(false);
-
-    window.addEventListener('online', handleOnline);
-    window.addEventListener('offline', handleOffline);
-
-    const checkPending = async () => {
-      const pending = await getPendingChanges();
-      setPendingCount(pending.length);
+    const handleOnline = () => {
+      setIsOnline(true);
+      toast.success("Back online - syncing data...");
+    };
+    const handleOffline = () => {
+      setIsOnline(false);
+      toast.warning("Offline mode - changes will sync when reconnected");
     };
 
-    checkPending();
-    const interval = setInterval(checkPending, 5000);
+    window.addEventListener("online", handleOnline);
+    window.addEventListener("offline", handleOffline);
 
     return () => {
-      window.removeEventListener('online', handleOnline);
-      window.removeEventListener('offline', handleOffline);
-      clearInterval(interval);
+      window.removeEventListener("online", handleOnline);
+      window.removeEventListener("offline", handleOffline);
     };
   }, []);
 
-  if (isOnline && pendingCount === 0) return null;
+  const handleSync = async () => {
+    setSyncing(true);
+    try {
+      await syncManager.forceSyn();
+    } finally {
+      setSyncing(false);
+    }
+  };
+
+  if (isOnline) return null;
 
   return (
-    <Card className={`fixed bottom-4 right-4 p-3 flex items-center gap-2 glass-card z-50 ${
-      isOnline ? 'bg-primary/10' : 'bg-yellow-500/10'
-    }`}>
-      {isOnline ? (
-        <>
-          <Wifi className="w-4 h-4 text-primary" />
-          <div className="text-sm">
-            <span className="font-semibold text-foreground">Online</span>
-            {pendingCount > 0 && (
-              <div className="flex items-center gap-1 text-xs text-muted-foreground">
-                <CloudUpload className="w-3 h-3" />
-                Syncing {pendingCount} change{pendingCount > 1 ? 's' : ''}...
-              </div>
-            )}
-          </div>
-        </>
-      ) : (
-        <>
-          <WifiOff className="w-4 h-4 text-yellow-500" />
-          <div className="text-sm">
-            <span className="font-semibold text-foreground">Offline Mode</span>
-            <p className="text-xs text-muted-foreground">
-              Changes will sync when online
-            </p>
-          </div>
-        </>
-      )}
-    </Card>
+    <Alert className="fixed top-20 left-1/2 -translate-x-1/2 w-auto max-w-md z-50 bg-warning/95 backdrop-blur-sm border-warning shadow-lg">
+      <WifiOff className="h-4 w-4" />
+      <AlertDescription className="flex items-center gap-3">
+        <span className="text-warning-foreground font-medium">
+          Offline Mode Enabled - Using cached data
+        </span>
+        <Button
+          onClick={handleSync}
+          disabled={syncing || !isOnline}
+          size="sm"
+          variant="outline"
+          className="h-7 text-xs"
+        >
+          {syncing ? (
+            <>
+              <RefreshCw className="h-3 w-3 mr-1 animate-spin" />
+              Syncing...
+            </>
+          ) : (
+            <>
+              <RefreshCw className="h-3 w-3 mr-1" />
+              Retry Sync
+            </>
+          )}
+        </Button>
+      </AlertDescription>
+    </Alert>
   );
 };

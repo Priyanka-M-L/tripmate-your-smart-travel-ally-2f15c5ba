@@ -12,7 +12,7 @@ import { BudgetTracker } from "@/components/BudgetTracker";
 import { Navigation } from "@/components/Navigation";
 import { SmartInsights } from "@/components/SmartInsights";
 import { TripPlannerEnhanced } from "@/components/TripPlannerEnhanced";
-import { InteractiveMapEngine } from "@/components/InteractiveMapEngine";
+import { GoogleMapEngine } from "@/components/GoogleMapEngine";
 import { CarbonFootprintCard } from "@/components/CarbonFootprintCard";
 import { PackingChecklist } from "@/components/PackingChecklist";
 import { SafetyTips } from "@/components/SafetyTips";
@@ -356,7 +356,7 @@ const TripDetail = () => {
 
           {items.length > 0 && (
             <div className="animate-fade-in" style={{ animationDelay: '0.3s' }}>
-              <InteractiveMapEngine items={items} destination={trip.destination} />
+              <GoogleMapEngine items={items} destination={trip.destination} />
             </div>
           )}
 
