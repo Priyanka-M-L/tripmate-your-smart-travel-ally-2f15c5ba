@@ -12,7 +12,6 @@ import { BudgetTracker } from "@/components/BudgetTracker";
 import { Navigation } from "@/components/Navigation";
 import { SmartInsights } from "@/components/SmartInsights";
 import { TripPlannerEnhanced } from "@/components/TripPlannerEnhanced";
-import { TripMap } from "@/components/TripMap";
 import { InteractiveMapEngine } from "@/components/InteractiveMapEngine";
 import { CarbonFootprintCard } from "@/components/CarbonFootprintCard";
 import { PackingChecklist } from "@/components/PackingChecklist";
@@ -28,6 +27,7 @@ import { WellnessAIAssistant } from "@/components/WellnessAIAssistant";
 import { ArrowLeft, Plus, Download, Sparkles, List, Calendar, MapPin, DollarSign } from "lucide-react";
 import { toast } from "sonner";
 import html2pdf from "html2pdf.js";
+import { tripSync } from "@/utils/tripSync";
 import { 
   cacheTrip, 
   cacheItineraryItems, 
@@ -79,6 +79,20 @@ const TripDetail = () => {
   useEffect(() => {
     fetchTripData();
   }, [id]);
+
+  // Sync trip data (geocoding, weather) when items change
+  useEffect(() => {
+    if (trip && items.length > 0) {
+      const syncData = async () => {
+        try {
+          await tripSync.syncItinerary(items, trip.destination);
+        } catch (error) {
+          console.error("Failed to sync trip data:", error);
+        }
+      };
+      syncData();
+    }
+  }, [items, trip]);
 
   const fetchTripData = async () => {
     try {

@@ -227,13 +227,26 @@ export const InteractiveMapEngine = ({ items, destination }: InteractiveMapEngin
     );
   }
 
-  if (markers.length === 0) {
+  if (markers.length === 0 && items.length === 0) {
     return (
       <Card className="p-6 glass-card border-2 border-border/50">
         <div className="text-center py-12">
           <MapPin className="w-12 h-12 mx-auto mb-4 text-muted-foreground" />
           <p className="text-sm text-muted-foreground">
-            No locations to display. Add locations to your itinerary items.
+            Add locations to your itinerary items to see them on the map
+          </p>
+        </div>
+      </Card>
+    );
+  }
+
+  if (markers.length === 0 && items.length > 0) {
+    return (
+      <Card className="p-6 glass-card border-2 border-border/50">
+        <div className="flex flex-col items-center justify-center py-12">
+          <Loader2 className="w-8 h-8 animate-spin text-primary mb-4" />
+          <p className="text-sm text-muted-foreground">
+            Geocoding {items.length} location{items.length > 1 ? 's' : ''}...
           </p>
         </div>
       </Card>

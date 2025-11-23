@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Card } from "@/components/ui/card";
 import { Cloud, Loader2 } from "lucide-react";
+import { toast } from "sonner";
 
 interface WeatherCardProps {
   destination: string;
@@ -11,6 +12,7 @@ interface WeatherCardProps {
 interface WeatherData {
   date: string;
   temperature: number;
+  precipitationProb: number;
 }
 
 export const WeatherCard = ({
@@ -45,7 +47,7 @@ export const WeatherCard = ({
 
       const { latitude: lat, longitude: lon } = geocodeData.results[0];
 
-      // Use current date for forecast (API only allows limited future range)
+      // Use current date for forecast (API only allows 14 days forecast)
       const today = new Date();
       const futureDate = new Date();
       futureDate.setDate(today.getDate() + 7);
@@ -53,10 +55,14 @@ export const WeatherCard = ({
       const formatDate = (date: Date) => date.toISOString().split('T')[0];
 
       const response = await fetch(
-        `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&daily=temperature_2m_max,temperature_2m_min,weather_code&start_date=${formatDate(today)}&end_date=${formatDate(futureDate)}&timezone=auto`
+        `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&daily=temperature_2m_max,temperature_2m_min,weather_code,precipitation_probability_max&start_date=${formatDate(today)}&end_date=${formatDate(futureDate)}&timezone=auto`
       );
 
-      if (!response.ok) throw new Error("Weather fetch failed");
+      if (!response.ok) {
+        const errorText = await response.text();
+        console.error("Weather API error:", response.status, errorText);
+        throw new Error("Weather fetch failed");
+      }
 
       const data = await response.json();
       const weatherData: WeatherData[] = data.daily.time.map(
@@ -67,6 +73,7 @@ export const WeatherCard = ({
               data.daily.temperature_2m_min[i]) /
               2
           ),
+          precipitationProb: data.daily.precipitation_probability_max?.[i] || 0,
         })
       );
 
@@ -74,6 +81,21 @@ export const WeatherCard = ({
     } catch (err) {
       console.error("Weather fetch error:", err);
       setError(true);
+      
+      // Try to load cached weather
+      const cached = localStorage.getItem(`weather_${destination}`);
+      if (cached) {
+        try {
+          const cachedData = JSON.parse(cached);
+          if (Date.now() - cachedData.timestamp < 30 * 60 * 1000) { // 30 min cache
+            setWeather(cachedData.weather);
+            toast.info("Showing cached weather data");
+            setError(false);
+          }
+        } catch (e) {
+          console.error("Failed to load cached weather:", e);
+        }
+      }
     } finally {
       setLoading(false);
     }
@@ -117,9 +139,16 @@ export const WeatherCard = ({
                 <span className="text-2xl">
                   {day.temperature > 25 ? "☀️" : day.temperature > 15 ? "⛅" : "🌤️"}
                 </span>
-                <span className="text-lg font-bold text-primary">
-                  {day.temperature}°C
-                </span>
+                <div className="text-right">
+                  <span className="text-lg font-bold text-primary">
+                    {day.temperature}°C
+                  </span>
+                  {day.precipitationProb > 0 && (
+                    <p className="text-xs text-muted-foreground">
+                      {day.precipitationProb}% rain
+                    </p>
+                  )}
+                </div>
               </div>
             </div>
           ))}
