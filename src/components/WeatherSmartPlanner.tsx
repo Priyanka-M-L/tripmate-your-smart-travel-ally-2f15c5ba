@@ -66,17 +66,62 @@ export const WeatherSmartPlanner = ({
 
       // Calculate safe date range (Open-Meteo API limits to 16 days forecast)
       const today = new Date();
+      today.setHours(0, 0, 0, 0);
+      
       const maxForecastDate = new Date();
       maxForecastDate.setDate(today.getDate() + 14); // 14 days forecast limit
+      maxForecastDate.setHours(0, 0, 0, 0);
 
-      const safeStartDate = new Date(startDate) < today ? today.toISOString().split('T')[0] : startDate;
-      const safeEndDate = new Date(endDate) > maxForecastDate 
-        ? maxForecastDate.toISOString().split('T')[0] 
-        : endDate;
+      const tripStart = new Date(startDate);
+      tripStart.setHours(0, 0, 0, 0);
+      
+      const tripEnd = new Date(endDate);
+      tripEnd.setHours(0, 0, 0, 0);
+
+      // Start date: use trip start if it's in the future and within forecast window, otherwise use today
+      let safeStartDate: Date;
+      if (tripStart > maxForecastDate) {
+        // Trip is too far in the future, show current weather instead
+        safeStartDate = today;
+      } else if (tripStart < today) {
+        // Trip already started or in the past, start from today
+        safeStartDate = today;
+      } else {
+        // Trip starts within forecast window
+        safeStartDate = tripStart;
+      }
+
+      // End date: ensure it's after start date and within forecast limit
+      let safeEndDate: Date;
+      if (tripEnd < safeStartDate) {
+        // If trip end is before our safe start, show 7 days from start
+        safeEndDate = new Date(safeStartDate);
+        safeEndDate.setDate(safeStartDate.getDate() + 7);
+      } else if (tripEnd > maxForecastDate) {
+        // If trip end is beyond forecast, cap at max forecast date
+        safeEndDate = maxForecastDate;
+      } else {
+        // Trip end is within valid range
+        safeEndDate = tripEnd;
+      }
+
+      // Final safety check: ensure end > start
+      if (safeEndDate <= safeStartDate) {
+        safeEndDate = new Date(safeStartDate);
+        safeEndDate.setDate(safeStartDate.getDate() + 7);
+        // Make sure we don't exceed max forecast
+        if (safeEndDate > maxForecastDate) {
+          safeEndDate = maxForecastDate;
+        }
+      }
+
+      const formatDateString = (date: Date) => date.toISOString().split('T')[0];
+      const startDateStr = formatDateString(safeStartDate);
+      const endDateStr = formatDateString(safeEndDate);
 
       // Fetch detailed weather data
       const weatherResponse = await fetch(
-        `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&daily=temperature_2m_max,temperature_2m_min,precipitation_probability_max,weather_code,apparent_temperature_max&hourly=relative_humidity_2m&start_date=${safeStartDate}&end_date=${safeEndDate}&timezone=auto`
+        `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&daily=temperature_2m_max,temperature_2m_min,precipitation_probability_max,weather_code,apparent_temperature_max&hourly=relative_humidity_2m&start_date=${startDateStr}&end_date=${endDateStr}&timezone=auto`
       );
 
       if (!weatherResponse.ok) {
