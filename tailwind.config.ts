@@ -52,9 +52,8 @@ export default {
         sand: "hsl(var(--sand))",
         forest: "hsl(var(--forest))",
         sky: "hsl(var(--sky))",
-        success: "hsl(var(--success))",
-        warning: "hsl(var(--warning))",
-        info: "hsl(var(--info))",
+        sunset: "hsl(var(--sunset))",
+        lavender: "hsl(var(--lavender))",
       },
       backgroundImage: {
         'gradient-hero': 'var(--gradient-hero)',
@@ -62,16 +61,20 @@ export default {
         'gradient-overlay': 'var(--gradient-overlay)',
         'gradient-primary': 'var(--gradient-primary)',
         'gradient-secondary': 'var(--gradient-secondary)',
+        'gradient-sunset': 'var(--gradient-sunset)',
+        'gradient-ocean': 'var(--gradient-ocean)',
       },
       boxShadow: {
         'soft': 'var(--shadow-soft)',
         'card': 'var(--shadow-card)',
         'hover': 'var(--shadow-hover)',
         'elegant': 'var(--shadow-elegant)',
+        'glow': 'var(--shadow-glow)',
       },
       transitionTimingFunction: {
         'smooth': 'var(--transition-smooth)',
         'spring': 'var(--transition-spring)',
+        'bounce': 'var(--transition-bounce)',
       },
       borderRadius: {
         lg: "var(--radius)",
