@@ -9,7 +9,7 @@ import { ItineraryItemCard } from "@/components/ItineraryItemCard";
 import { TripTimeline } from "@/components/TripTimeline";
 import { CreateItineraryDialog } from "@/components/CreateItineraryDialog";
 import { BudgetTracker } from "@/components/BudgetTracker";
-import { Navigation } from "@/components/Navigation";
+import { EnhancedNavigation } from "@/components/EnhancedNavigation";
 import { SmartInsights } from "@/components/SmartInsights";
 import { TripPlannerEnhanced } from "@/components/TripPlannerEnhanced";
 import { GoogleMapEngine } from "@/components/GoogleMapEngine";
@@ -262,26 +262,44 @@ const TripDetail = () => {
 
   return (
     <div className="min-h-screen">
-      <Navigation />
+      <EnhancedNavigation />
       <OfflineIndicator />
       
-      <div className="bg-gradient-hero py-8 shadow-soft">
-        <div className="container mx-auto px-4">
-          <div className="flex items-center justify-between mb-4">
-            <Button
-              variant="ghost"
-              onClick={handleBack}
-              className="text-foreground hover:bg-accent"
-            >
-              <ArrowLeft className="w-4 h-4 mr-2" />
-              
-              Back
-            </Button>
+      <div className="relative bg-gradient-hero py-12 shadow-soft border-b border-border/50 overflow-hidden">
+        <div className="absolute inset-0 opacity-20">
+          <div className="absolute top-5 left-20 w-48 h-48 bg-primary/30 rounded-full blur-2xl animate-float" />
+          <div className="absolute bottom-5 right-20 w-64 h-64 bg-secondary/30 rounded-full blur-2xl animate-float" style={{ animationDelay: '1s' }} />
+        </div>
+        
+        <div className="container mx-auto px-4 relative z-10">
+          <Button
+            variant="ghost"
+            onClick={handleBack}
+            className="mb-6 hover:bg-accent/50 hover-scale"
+          >
+            <ArrowLeft className="w-4 h-4 mr-2" />
+            Back
+          </Button>
+          
+          <h1 className="text-5xl font-bold mb-3 bg-gradient-ocean bg-clip-text text-transparent">
+            {trip.title}
+          </h1>
+          <div className="flex flex-wrap items-center gap-3">
+            <div className="flex items-center gap-2 px-4 py-2 rounded-full bg-card/50 border border-border/50 hover-scale">
+              <MapPin className="w-5 h-5 text-primary" />
+              <span className="text-foreground font-medium">{trip.destination}</span>
+            </div>
+            <div className="flex items-center gap-2 px-4 py-2 rounded-full bg-card/50 border border-border/50 hover-scale">
+              <Calendar className="w-5 h-5 text-secondary" />
+              <span className="text-foreground font-medium">{tripDays} days</span>
+            </div>
+            {trip.budget > 0 && (
+              <div className="flex items-center gap-2 px-4 py-2 rounded-full bg-card/50 border border-border/50 hover-scale">
+                <DollarSign className="w-5 h-5 text-success" />
+                <span className="text-foreground font-medium">${trip.budget}</span>
+              </div>
+            )}
           </div>
-          <h1 className="text-4xl font-bold mb-2 text-foreground">{trip.title}</h1>
-          <p className="text-lg text-muted-foreground">
-            {trip.destination} • {tripDays} days
-          </p>
         </div>
       </div>
 
@@ -289,25 +307,25 @@ const TripDetail = () => {
         <div className="flex flex-wrap gap-4 mb-8 animate-fade-in">
           <Button 
             onClick={() => setDialogOpen(true)}
-            className="bg-gradient-primary hover:opacity-90 shadow-soft hover-lift border-0"
+            className="bg-gradient-ocean hover:opacity-90 shadow-glow hover-lift border-0 text-lg px-6"
           >
-            <Plus className="w-4 h-4 mr-2" />
-            Add Item
+            <Plus className="w-5 h-5 mr-2" />
+            Add Activity
           </Button>
           <Button 
             onClick={generateAIItinerary} 
             disabled={generatingAI}
-            className="bg-gradient-secondary hover:opacity-90 shadow-soft hover-lift border-0"
+            className="bg-gradient-sunset hover:opacity-90 shadow-glow hover-lift border-0 text-lg px-6"
           >
-            <Sparkles className="w-4 h-4 mr-2" />
-            {generatingAI ? "Generating..." : "Generate AI Itinerary"}
+            <Sparkles className="w-5 h-5 mr-2" />
+            {generatingAI ? "Generating..." : "AI Itinerary"}
           </Button>
           <Button 
             onClick={exportToPDF} 
             variant="outline"
-            className="hover-lift border-2"
+            className="hover-lift border-2 hover:border-primary text-lg px-6"
           >
-            <Download className="w-4 h-4 mr-2" />
+            <Download className="w-5 h-5 mr-2" />
             Export PDF
           </Button>
         </div>

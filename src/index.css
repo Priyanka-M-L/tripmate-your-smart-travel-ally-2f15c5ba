@@ -8,117 +8,127 @@ All colors MUST be HSL.
 
 @layer base {
   :root {
-    /* Premium Travel App Colors - Soft Blues & Whites */
-    --background: 210 25% 98%;
-    --foreground: 215 25% 20%;
+    /* Vibrant Modern Travel App Colors */
+    --background: 220 40% 98%;
+    --foreground: 220 30% 15%;
 
     --card: 0 0% 100%;
-    --card-foreground: 215 25% 20%;
+    --card-foreground: 220 30% 15%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 215 25% 20%;
+    --popover-foreground: 220 30% 15%;
 
-    /* Primary: Deep Ocean Blue */
-    --primary: 207 90% 54%;
+    /* Primary: Vibrant Turquoise */
+    --primary: 185 95% 52%;
     --primary-foreground: 0 0% 100%;
     
-    /* Secondary: Soft Coral/Sunset */
-    --secondary: 14 100% 63%;
+    /* Secondary: Coral Pink */
+    --secondary: 350 100% 65%;
     --secondary-foreground: 0 0% 100%;
 
-    --muted: 210 25% 96%;
-    --muted-foreground: 215 15% 50%;
+    --muted: 220 30% 96%;
+    --muted-foreground: 220 20% 50%;
 
-    --accent: 207 95% 94%;
-    --accent-foreground: 207 90% 35%;
+    --accent: 185 85% 92%;
+    --accent-foreground: 185 95% 35%;
 
-    --destructive: 0 84% 60%;
+    --destructive: 0 90% 60%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 210 20% 92%;
-    --input: 210 20% 92%;
-    --ring: 207 90% 54%;
+    --border: 220 25% 90%;
+    --input: 220 25% 95%;
+    --ring: 185 95% 52%;
 
-    --radius: 1.25rem;
+    --radius: 1rem;
     
-    /* Travel-themed colors */
-    --ocean: 207 90% 54%;
-    --coral: 14 100% 63%;
-    --sand: 40 55% 92%;
-    --forest: 145 50% 45%;
-    --sky: 200 85% 88%;
+    /* Enhanced Travel Colors */
+    --ocean: 185 95% 52%;
+    --coral: 350 100% 65%;
+    --sand: 40 70% 90%;
+    --forest: 145 60% 48%;
+    --sky: 200 95% 85%;
+    --sunset: 25 100% 62%;
+    --lavender: 270 60% 75%;
     
-    /* Success/Warning/Info */
-    --success: 145 65% 45%;
-    --warning: 38 92% 50%;
-    --info: 207 90% 61%;
+    /* Status Colors */
+    --success: 145 70% 50%;
+    --warning: 38 100% 55%;
+    --info: 200 95% 60%;
     
-    /* Premium Gradients */
-    --gradient-hero: linear-gradient(135deg, hsl(207 100% 96%) 0%, hsl(200 100% 98%) 50%, hsl(207 95% 94%) 100%);
-    --gradient-card: linear-gradient(135deg, hsl(0 0% 100%) 0%, hsl(210 25% 99%) 100%);
-    --gradient-primary: linear-gradient(135deg, hsl(207 90% 54%) 0%, hsl(200 85% 60%) 100%);
-    --gradient-secondary: linear-gradient(135deg, hsl(14 100% 63%) 0%, hsl(25 95% 58%) 100%);
-    --gradient-overlay: linear-gradient(180deg, transparent 0%, hsl(207 90% 54% / 0.05) 100%);
+    /* Vibrant Gradients */
+    --gradient-hero: linear-gradient(135deg, hsl(185 100% 95%) 0%, hsl(200 100% 97%) 40%, hsl(270 80% 95%) 100%);
+    --gradient-card: linear-gradient(135deg, hsl(0 0% 100%) 0%, hsl(185 40% 98%) 100%);
+    --gradient-primary: linear-gradient(135deg, hsl(185 95% 52%) 0%, hsl(200 90% 60%) 100%);
+    --gradient-secondary: linear-gradient(135deg, hsl(350 100% 65%) 0%, hsl(25 100% 62%) 100%);
+    --gradient-sunset: linear-gradient(135deg, hsl(350 100% 70%) 0%, hsl(25 100% 65%) 50%, hsl(45 100% 60%) 100%);
+    --gradient-ocean: linear-gradient(135deg, hsl(200 100% 60%) 0%, hsl(185 95% 52%) 50%, hsl(170 90% 55%) 100%);
+    --gradient-overlay: linear-gradient(180deg, transparent 0%, hsl(185 95% 52% / 0.08) 100%);
     --gradient-mesh: 
-      radial-gradient(at 15% 15%, hsl(207 100% 96%) 0px, transparent 50%),
-      radial-gradient(at 85% 85%, hsl(200 100% 98%) 0px, transparent 50%),
-      radial-gradient(at 85% 15%, hsl(14 100% 96%) 0px, transparent 50%);
+      radial-gradient(at 20% 20%, hsl(185 100% 95%) 0px, transparent 50%),
+      radial-gradient(at 80% 80%, hsl(350 100% 95%) 0px, transparent 50%),
+      radial-gradient(at 50% 50%, hsl(270 80% 95%) 0px, transparent 60%);
     
-    /* Premium Shadows - Softer & More Elegant */
-    --shadow-soft: 0 2px 12px hsl(207 90% 54% / 0.06);
-    --shadow-card: 0 4px 20px hsl(207 90% 54% / 0.08);
-    --shadow-hover: 0 8px 32px hsl(207 90% 54% / 0.12);
-    --shadow-elegant: 0 10px 40px hsl(207 90% 54% / 0.1);
+    /* Enhanced Shadows */
+    --shadow-soft: 0 2px 15px hsl(185 95% 52% / 0.08);
+    --shadow-card: 0 4px 25px hsl(185 95% 52% / 0.1);
+    --shadow-hover: 0 12px 40px hsl(185 95% 52% / 0.15);
+    --shadow-elegant: 0 15px 50px hsl(185 95% 52% / 0.12);
+    --shadow-glow: 0 0 30px hsl(185 95% 52% / 0.3);
     
-    /* Animations */
+    /* Smooth Animations */
     --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    --transition-spring: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+    --transition-spring: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+    --transition-bounce: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
   }
 
   .dark {
-    --background: 200 25% 8%;
-    --foreground: 210 20% 95%;
+    --background: 220 40% 8%;
+    --foreground: 220 20% 95%;
 
-    --card: 200 25% 12%;
-    --card-foreground: 210 20% 95%;
+    --card: 220 35% 12%;
+    --card-foreground: 220 20% 95%;
 
-    --popover: 200 25% 12%;
-    --popover-foreground: 210 20% 95%;
+    --popover: 220 35% 12%;
+    --popover-foreground: 220 20% 95%;
 
-    --primary: 207 90% 61%;
+    --primary: 185 95% 60%;
     --primary-foreground: 0 0% 100%;
     
-    --secondary: 14 100% 70%;
+    --secondary: 350 100% 70%;
     --secondary-foreground: 0 0% 100%;
 
-    --muted: 200 25% 15%;
-    --muted-foreground: 210 15% 65%;
+    --muted: 220 35% 15%;
+    --muted-foreground: 220 20% 65%;
 
-    --accent: 207 80% 20%;
-    --accent-foreground: 207 80% 95%;
+    --accent: 185 75% 22%;
+    --accent-foreground: 185 80% 95%;
 
-    --destructive: 0 62% 55%;
+    --destructive: 0 85% 60%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 200 20% 25%;
-    --input: 200 20% 25%;
-    --ring: 207 90% 61%;
+    --border: 220 30% 25%;
+    --input: 220 30% 20%;
+    --ring: 185 95% 60%;
     
-    /* Dark theme colors */
-    --ocean: 207 90% 61%;
-    --coral: 14 100% 70%;
-    --sand: 40 55% 30%;
-    --forest: 145 50% 50%;
-    --sky: 200 85% 35%;
-    --success: 145 65% 50%;
-    --warning: 38 92% 55%;
-    --info: 207 90% 65%;
+    /* Dark theme vibrant colors */
+    --ocean: 185 95% 60%;
+    --coral: 350 100% 70%;
+    --sand: 40 60% 35%;
+    --forest: 145 60% 52%;
+    --sky: 200 90% 40%;
+    --sunset: 25 100% 68%;
+    --lavender: 270 60% 80%;
+    --success: 145 70% 55%;
+    --warning: 38 100% 60%;
+    --info: 200 95% 65%;
     
     /* Dark Gradients */
-    --gradient-hero: linear-gradient(135deg, hsl(200 30% 12%) 0%, hsl(207 35% 15%) 50%, hsl(200 30% 12%) 100%);
-    --gradient-card: linear-gradient(135deg, hsl(200 25% 12%) 0%, hsl(200 25% 14%) 100%);
-    --gradient-primary: linear-gradient(135deg, hsl(207 90% 61%) 0%, hsl(200 85% 65%) 100%);
-    --gradient-secondary: linear-gradient(135deg, hsl(14 100% 70%) 0%, hsl(25 95% 65%) 100%);
+    --gradient-hero: linear-gradient(135deg, hsl(220 45% 10%) 0%, hsl(220 40% 13%) 50%, hsl(270 35% 12%) 100%);
+    --gradient-card: linear-gradient(135deg, hsl(220 35% 12%) 0%, hsl(220 35% 15%) 100%);
+    --gradient-primary: linear-gradient(135deg, hsl(185 95% 60%) 0%, hsl(200 90% 65%) 100%);
+    --gradient-secondary: linear-gradient(135deg, hsl(350 100% 70%) 0%, hsl(25 100% 68%) 100%);
+    --gradient-sunset: linear-gradient(135deg, hsl(350 100% 75%) 0%, hsl(25 100% 70%) 50%, hsl(45 100% 65%) 100%);
+    --gradient-ocean: linear-gradient(135deg, hsl(200 100% 65%) 0%, hsl(185 95% 60%) 50%, hsl(170 90% 60%) 100%);
   }
 }
 
@@ -155,8 +165,20 @@ All colors MUST be HSL.
   }
   
   .hover-lift:hover {
-    transform: translateY(-4px);
+    transform: translateY(-6px) scale(1.02);
     box-shadow: var(--shadow-hover);
+  }
+
+  .hover-glow:hover {
+    box-shadow: var(--shadow-glow);
+  }
+
+  .hover-scale {
+    transition: var(--transition-spring);
+  }
+
+  .hover-scale:hover {
+    transform: scale(1.05);
   }
 
   /* Custom scrollbar */
@@ -181,10 +203,22 @@ All colors MUST be HSL.
 
   /* Glass effect */
   .glass-card {
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    background: hsl(var(--card) / 0.8);
-    border: 1px solid hsl(var(--border) / 0.5);
+    backdrop-filter: blur(16px) saturate(180%);
+    -webkit-backdrop-filter: blur(16px) saturate(180%);
+    background: hsl(var(--card) / 0.85);
+    border: 1px solid hsl(var(--border) / 0.6);
+  }
+
+  .glass-effect {
+    backdrop-filter: blur(20px) saturate(200%);
+    -webkit-backdrop-filter: blur(20px) saturate(200%);
+  }
+
+  /* Gradient borders */
+  .gradient-border {
+    border: 2px solid transparent;
+    background: linear-gradient(hsl(var(--card)), hsl(var(--card))) padding-box,
+                var(--gradient-primary) border-box;
   }
 }
 
