@@ -25,14 +25,14 @@ export const BudgetTracker = ({ budget, spent }: BudgetTrackerProps) => {
         <div className="flex justify-between items-center">
           <span className="text-sm text-muted-foreground">Total Budget</span>
           <span className="font-semibold text-foreground">
-            ${totalBudget.toFixed(2)}
+            ₹{totalBudget.toFixed(2)}
           </span>
         </div>
 
         <div className="flex justify-between items-center">
           <span className="text-sm text-muted-foreground">Spent</span>
           <span className="font-semibold text-foreground">
-            ${totalSpent.toFixed(2)}
+            ₹{totalSpent.toFixed(2)}
           </span>
         </div>
 
@@ -52,7 +52,7 @@ export const BudgetTracker = ({ budget, spent }: BudgetTrackerProps) => {
               isOverBudget ? "text-destructive" : "text-primary"
             }`}
           >
-            ${Math.abs(remaining).toFixed(2)}
+            ₹{Math.abs(remaining).toFixed(2)}
           </span>
         </div>
 

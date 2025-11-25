@@ -160,7 +160,7 @@ export const GoogleMapEngine = ({ items, destination }: GoogleMapEngineProps) =>
               <strong style="font-size: 14px;">${item.title}</strong><br/>
               <span style="font-size: 12px; color: #666;">${item.location}</span>
               ${item.time ? `<br/><span style="font-size: 12px;">🕐 ${item.time}</span>` : ''}
-              ${item.cost ? `<br/><span style="font-size: 12px;">💰 $${item.cost}</span>` : ''}
+              ${item.cost ? `<br/><span style="font-size: 12px;">💰 ₹${item.cost}</span>` : ''}
             </div>
           `,
         });

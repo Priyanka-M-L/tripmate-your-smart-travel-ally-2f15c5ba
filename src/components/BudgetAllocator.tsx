@@ -88,11 +88,11 @@ export const BudgetAllocator = ({ totalBudget, onBudgetChange }: BudgetAllocator
         <div className="flex justify-between items-center mb-3">
           <div>
             <p className="text-sm text-muted-foreground">Total Budget</p>
-            <p className="text-2xl font-bold text-foreground">${totalBudget.toLocaleString()}</p>
+            <p className="text-2xl font-bold text-foreground">₹{totalBudget.toLocaleString()}</p>
           </div>
           <div className="text-right">
             <p className="text-sm text-muted-foreground">Allocated</p>
-            <p className="text-xl font-semibold text-primary">${totalAllocated.toLocaleString()}</p>
+            <p className="text-xl font-semibold text-primary">₹{totalAllocated.toLocaleString()}</p>
           </div>
         </div>
         
@@ -104,14 +104,14 @@ export const BudgetAllocator = ({ totalBudget, onBudgetChange }: BudgetAllocator
               <>
                 <AlertCircle className="w-4 h-4 text-destructive" />
                 <span className="text-sm font-medium text-destructive">
-                  Over budget by ${Math.abs(remaining).toLocaleString()}
+                  Over budget by ₹{Math.abs(remaining).toLocaleString()}
                 </span>
               </>
             ) : (
               <>
                 <TrendingUp className="w-4 h-4 text-success" />
                 <span className="text-sm font-medium text-success">
-                  Remaining: ${remaining.toLocaleString()}
+                  Remaining: ₹{remaining.toLocaleString()}
                 </span>
               </>
             )}
@@ -142,7 +142,7 @@ export const BudgetAllocator = ({ totalBudget, onBudgetChange }: BudgetAllocator
                 </div>
                 
                 <div>
-                  <Label className="text-xs text-muted-foreground mb-1">Budget ($)</Label>
+                  <Label className="text-xs text-muted-foreground mb-1">Budget (₹)</Label>
                   <Input
                     type="number"
                     placeholder="0"
