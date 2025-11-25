@@ -84,7 +84,7 @@ export const TripTimeline = ({ items }: TripTimelineProps) => {
                       {item.cost && item.cost > 0 && (
                         <div className="flex items-center gap-2 text-sm font-medium text-primary">
                           <DollarSign className="w-4 h-4" />
-                          <span>${item.cost.toFixed(2)}</span>
+                          <span>₹{item.cost.toFixed(2)}</span>
                         </div>
                       )}
                     </div>

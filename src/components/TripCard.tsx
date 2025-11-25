@@ -79,7 +79,7 @@ export const TripCard = ({ trip, onDelete }: TripCardProps) => {
               <div className="w-8 h-8 rounded-lg bg-success/10 flex items-center justify-center">
                 <DollarSign className="w-4 h-4 text-success" />
               </div>
-              <span className="text-sm font-semibold">${trip.budget?.toLocaleString() || "0"}</span>
+              <span className="text-sm font-semibold">₹{trip.budget?.toLocaleString() || "0"}</span>
             </div>
           </div>
         </div>

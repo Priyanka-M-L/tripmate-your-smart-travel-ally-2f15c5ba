@@ -34,7 +34,7 @@ serve(async (req) => {
               "activity": "Visit the Eiffel Tower",
               "location": "Champ de Mars, Paris",
               "description": "Start your day at this iconic landmark. Book tickets in advance to skip the line.",
-              "estimatedCost": 25,
+              "estimatedCost": 2000,
               "transportMode": "metro",
               "transportDistance": 5.2,
               "carbonFootprint": 0.3
@@ -47,7 +47,7 @@ serve(async (req) => {
     Guidelines:
     - Create realistic daily schedules with 5-8 activities per day including meals
     - Include specific times, locations, and helpful descriptions
-    - Add estimatedCost in USD for each activity (tickets, meals, shopping, etc.)
+    - Add estimatedCost in INR (Indian Rupees) for each activity (tickets, meals, shopping, etc.)
     - Specify transportMode: walking, metro, bus, taxi, train, bike
     - Add transportDistance in kilometers between activities
     - Calculate carbonFootprint in kg CO2 (walking/bike: 0, metro/bus: 0.05/km, taxi/car: 0.2/km, train: 0.04/km)
@@ -58,10 +58,10 @@ serve(async (req) => {
     - Tailor activities to the user's interests`;
 
     const userPrompt = `Create a ${duration}-day travel itinerary for ${destination}.
-Budget: $${budget} USD
+Budget: ₹${budget} INR (Indian Rupees)
 Interests: ${interests || 'General tourism, culture, food'}
 
-Please provide a day-by-day breakdown with specific activities, times, and locations.`;
+Please provide a day-by-day breakdown with specific activities, times, and locations. All costs should be in INR.`;
 
     const response = await fetch('https://ai.gateway.lovable.dev/v1/chat/completions', {
       method: 'POST',

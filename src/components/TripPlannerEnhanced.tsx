@@ -138,13 +138,13 @@ export const TripPlannerEnhanced = ({
           <div className="flex justify-between items-center">
             <span className="text-sm text-muted-foreground">Total Budget</span>
             <span className="text-lg font-bold text-foreground">
-              ${budget.toFixed(2)}
+              ₹{budget.toFixed(2)}
             </span>
           </div>
           <div className="flex justify-between items-center">
             <span className="text-sm text-muted-foreground">Daily Budget</span>
             <span className="text-lg font-semibold text-primary">
-              ${dailyBudget.toFixed(2)}
+              ₹{dailyBudget.toFixed(2)}
             </span>
           </div>
           <div className="flex justify-between items-center pt-2 border-t border-border">

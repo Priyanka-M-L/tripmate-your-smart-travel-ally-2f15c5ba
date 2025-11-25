@@ -58,7 +58,7 @@ export const ItineraryItemCard = ({
           {item.cost > 0 && (
             <div className="flex items-center gap-2 text-sm text-muted-foreground mt-2">
               <DollarSign className="w-4 h-4" />
-              ${item.cost.toFixed(2)}
+              ₹{item.cost.toFixed(2)}
             </div>
           )}
           <div className="flex items-center gap-4 mt-2">
