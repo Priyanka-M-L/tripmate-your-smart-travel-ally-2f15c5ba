@@ -29,12 +29,18 @@ export const WeatherCard = ({
   const [weather, setWeather] = useState<WeatherData[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
+  const [retryCount, setRetryCount] = useState(0);
 
   useEffect(() => {
     fetchWeather();
   }, [destination, startDate, endDate]);
 
-  const fetchWeather = async () => {
+  const fetchWeather = async (isRetry = false) => {
+    if (isRetry) {
+      setRetryCount(prev => prev + 1);
+    } else {
+      setRetryCount(0);
+    }
     try {
       setLoading(true);
       setError(false);
@@ -97,6 +103,15 @@ export const WeatherCard = ({
       }));
     } catch (err) {
       console.error("Weather fetch error:", err);
+      
+      // Retry logic with exponential backoff
+      if (retryCount < 3 && !isRetry) {
+        const delay = Math.pow(2, retryCount) * 1000; // 1s, 2s, 4s
+        toast.info(`Retrying in ${delay / 1000}s... (${retryCount + 1}/3)`);
+        setTimeout(() => fetchWeather(true), delay);
+        return;
+      }
+      
       setError(true);
       
       // Try to load cached weather
@@ -112,6 +127,10 @@ export const WeatherCard = ({
         } catch (e) {
           console.error("Failed to load cached weather:", e);
         }
+      }
+      
+      if (retryCount >= 3) {
+        toast.error("Unable to fetch weather after 3 attempts");
       }
     } finally {
       setLoading(false);
@@ -145,16 +164,22 @@ export const WeatherCard = ({
       {loading ? (
         <div className="flex flex-col items-center justify-center py-12">
           <Loader2 className="w-8 h-8 animate-spin text-primary mb-3" />
-          <p className="text-sm text-muted-foreground">Loading weather data...</p>
+          <p className="text-sm text-muted-foreground">
+            {retryCount > 0 ? `Retrying... (${retryCount}/3)` : "Loading weather data..."}
+          </p>
         </div>
       ) : error ? (
-        <div className="text-center py-8">
-          <div className="w-16 h-16 rounded-full bg-muted flex items-center justify-center mx-auto mb-4">
-            <Cloud className="w-8 h-8 text-muted-foreground" />
+        <div className="text-center py-12">
+          <div className="w-20 h-20 rounded-full bg-gradient-primary/10 flex items-center justify-center mx-auto mb-4">
+            <Cloud className="w-10 h-10 text-primary" />
           </div>
-          <p className="text-sm text-muted-foreground mb-4">Weather data unavailable</p>
+          <h4 className="text-lg font-semibold text-foreground mb-2">Weather Unavailable</h4>
+          <p className="text-sm text-muted-foreground mb-2">
+            {retryCount >= 3 ? "Failed after 3 retry attempts" : "Unable to load weather data"}
+          </p>
+          <p className="text-xs text-muted-foreground mb-6">Check your connection and destination name</p>
           <Button 
-            onClick={fetchWeather} 
+            onClick={() => fetchWeather(false)} 
             variant="outline" 
             size="sm"
             className="hover-lift"

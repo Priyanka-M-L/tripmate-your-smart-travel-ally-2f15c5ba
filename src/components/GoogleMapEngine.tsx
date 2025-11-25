@@ -54,7 +54,7 @@ export const GoogleMapEngine = ({ items, destination }: GoogleMapEngineProps) =>
     const GOOGLE_MAPS_API_KEY = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
     
     if (!GOOGLE_MAPS_API_KEY) {
-      setError("Google Maps API key not configured. Add VITE_GOOGLE_MAPS_API_KEY to your environment.");
+      setError("Google Maps API key not configured. Please add VITE_GOOGLE_MAPS_API_KEY to your .env file to enable interactive maps with route planning and nearby places.");
       setLoading(false);
       return;
     }
@@ -189,17 +189,26 @@ export const GoogleMapEngine = ({ items, destination }: GoogleMapEngineProps) =>
 
   if (error) {
     return (
-      <Card className="glass-card p-6">
+      <Card className="glass-card p-6 border-2 border-border/50">
         <div className="flex items-center gap-2 mb-4">
           <Map className="w-5 h-5 text-primary" />
           <h3 className="text-lg font-semibold text-foreground">Interactive Map</h3>
         </div>
-        <div className="text-center py-8">
-          <AlertCircle className="w-12 h-12 mx-auto mb-4 text-destructive" />
-          <p className="text-sm text-muted-foreground mb-4">{error}</p>
-          <Button onClick={() => window.location.reload()} variant="outline" size="sm">
-            Reload Page
-          </Button>
+        <div className="text-center py-12 px-4">
+          <div className="w-20 h-20 rounded-full bg-gradient-primary/10 flex items-center justify-center mx-auto mb-4">
+            <AlertCircle className="w-10 h-10 text-primary" />
+          </div>
+          <h4 className="text-lg font-semibold text-foreground mb-2">Google Maps Not Configured</h4>
+          <p className="text-sm text-muted-foreground mb-6 max-w-md mx-auto">{error}</p>
+          <div className="bg-muted/50 p-4 rounded-lg max-w-md mx-auto text-left">
+            <p className="text-xs font-mono text-foreground mb-2">📝 Setup Instructions:</p>
+            <ol className="text-xs text-muted-foreground space-y-1 ml-4 list-decimal">
+              <li>Get API key from Google Cloud Console</li>
+              <li>Enable Maps JavaScript API & Geocoding API</li>
+              <li>Add to .env: VITE_GOOGLE_MAPS_API_KEY=your_key</li>
+              <li>Reload the page</li>
+            </ol>
+          </div>
         </div>
       </Card>
     );
